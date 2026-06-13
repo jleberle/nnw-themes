@@ -1,0 +1,334 @@
+/* ============================================================
+   Eberle Serif — a NetNewsWire reading theme.
+   Modeled on jaredeberle.org: Georgia serif, tightened measure,
+   balanced headings, high-readability body type. The Solarized
+   palette of the site is intentionally dropped in favor of a
+   neutral paper-light / warm-dark reading surface.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   Light theme (default). Neutral white surface, near-black
+   serif text, a warm-red accent echoing the site's link accent.
+   ------------------------------------------------------------ */
+:root {
+    --bg:               #ffffff;
+    --text:             #232323;   /* body copy                       */
+    --heading:          #111111;   /* titles + h1..h6                 */
+    --secondary:        #6b6b6b;   /* byline, dateline, captions      */
+    --accent:           #b3261e;   /* links + interactive accents     */
+    --accent-hover:     #861a14;
+    --rule:             #e2e2e2;   /* hr, borders, table cell lines   */
+    --quote-rule:       #d6d6d6;   /* blockquote bar                  */
+    --quote-text:       #555555;
+    --code-bg:          #f2f1ee;   /* inline + block code background  */
+    --code-text:        #2c2c2c;
+    --footnote-border:  #cccccc;
+    --footnote-bg:      #fafafa;
+    --footnote-text:    #1a1a1a;
+}
+
+/* ------------------------------------------------------------
+   Dark theme — neutral charcoal surface (no Solarized teal),
+   warm off-white text for a paper-like feel, cyan accent to
+   mirror the site's dark-mode accent shift.
+   ------------------------------------------------------------ */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg:               #1b1b1d;
+        --text:             #d8d4cd;
+        --heading:          #f2efe9;
+        --secondary:        #8d8a84;
+        --accent:           #5ec8bd;
+        --accent-hover:     #84d7ce;
+        --rule:             #3a3a3d;
+        --quote-rule:       #45454a;
+        --quote-text:       #b0ada7;
+        --code-bg:          #2a2a2c;
+        --code-text:        #d8d4cd;
+        --footnote-border:  #444444;
+        --footnote-bg:      #242424;
+        --footnote-text:    #e0e0e0;
+    }
+}
+
+/* ------------------------------------------------------------
+   Page surface + body type.
+   Georgia stack, 1.7 line-height, and a ~40em measure centered
+   in the pane keep lines in the comfortable 60–75 character
+   range that serif body reads best in. Grayscale antialiasing
+   on macOS renders the serif a touch lighter and cleaner.
+   ------------------------------------------------------------ */
+body {
+    font-family: Georgia, Cambria, 'Times New Roman', Times, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--text);
+    background: var(--bg);
+    max-width: 40em;
+    margin: 0 auto;
+    padding: 1.5em 1.25em 4em;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: none;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.15em;
+}
+
+a:hover {
+    color: var(--accent-hover);
+    text-underline-offset: 0.2em;
+}
+
+/* ------------------------------------------------------------
+   Feed header: feed title + byline on the left, avatar on the
+   right, separated from the article by a thin rule.
+   ------------------------------------------------------------ */
+.headerContainer {
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 1.75em;
+    padding-bottom: 0.85em;
+}
+
+.headerTable {
+    width: 100%;
+}
+
+.header {
+    font-size: 0.85rem;
+    line-height: 1.45;
+    color: var(--secondary);
+    vertical-align: middle;
+}
+
+.leftAlign {
+    text-align: left;
+}
+
+.rightAlign {
+    text-align: right;
+}
+
+.feedlink,
+.feedlink:hover {
+    color: var(--heading);
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.feedlink:hover {
+    color: var(--accent);
+}
+
+.avatar img {
+    border-radius: 6px;
+    display: inline-block;
+}
+
+/* ------------------------------------------------------------
+   Article title + dateline.
+   Display type gets a tighter 1.25 line-height, a hair of
+   negative tracking, and balanced wrapping — the same heading
+   treatment used on the site.
+   ------------------------------------------------------------ */
+.articleTitle {
+    margin: 0.2em 0 0.15em;
+}
+
+.articleTitle h1 {
+    font-size: 1.9em;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+    text-rendering: optimizeLegibility;
+    margin: 0;
+}
+
+.articleTitle h1 a,
+.articleTitle h1 a:hover {
+    color: var(--heading);
+    text-decoration: none;
+}
+
+.articleDateline,
+.articleDatelineTitle {
+    font-size: 0.85rem;
+    color: var(--secondary);
+    margin-bottom: 1.5em;
+}
+
+.articleDateline a,
+.articleDatelineTitle a,
+.articleDateline a:hover,
+.articleDatelineTitle a:hover {
+    color: var(--secondary);
+    text-decoration: none;
+}
+
+.externalLink {
+    font-size: 0.85rem;
+    color: var(--secondary);
+    margin-bottom: 1.5em;
+    word-break: break-all;
+}
+
+/* ------------------------------------------------------------
+   Article body. Inherits the body serif/measure; size classes
+   below honor the reader's text-size preference.
+   ------------------------------------------------------------ */
+.articleBody {
+    margin-top: 0.5em;
+}
+
+.smallText  { font-size: 15px; }
+.mediumText { font-size: 17px; }
+.largeText  { font-size: 19px; }
+.xlargeText { font-size: 21px; }
+.xxlargeText{ font-size: 24px; }
+
+/* Prose headings: tighter, balanced, lightly tracked. */
+.articleBody h1,
+.articleBody h2,
+.articleBody h3,
+.articleBody h4,
+.articleBody h5,
+.articleBody h6 {
+    color: var(--heading);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    text-rendering: optimizeLegibility;
+    margin: 1.6em 0 0.5em;
+}
+
+.articleBody h1 { font-size: 1.6em; }
+.articleBody h2 { font-size: 1.35em; }
+.articleBody h3 { font-size: 1.15em; }
+.articleBody h4 { font-size: 1em; }
+
+.articleBody p {
+    margin: 0 0 1.1em;
+    text-wrap: pretty;   /* avoid single-word last lines where supported */
+}
+
+.articleBody li {
+    margin-bottom: 0.4em;
+    text-wrap: pretty;
+}
+
+.articleBody ul,
+.articleBody ol {
+    padding-left: 1.4em;
+}
+
+/* Images scale down without distortion (explicit attrs preserved). */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+figure {
+    margin: 1.5em 0;
+}
+
+figcaption {
+    font-size: 0.85rem;
+    color: var(--secondary);
+    text-align: center;
+    margin-top: 0.4em;
+}
+
+/* Blockquotes: a quiet left bar, muted color, matching the site. */
+blockquote {
+    margin: 1.4em 0;
+    padding: 0.1em 0 0.1em 1.1em;
+    border-left: 3px solid var(--quote-rule);
+    color: var(--quote-text);
+}
+
+blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+/* Code: neutral fill, system monospace stack (matches mono.css). */
+code, pre, kbd, samp, tt {
+    font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+                 'Liberation Mono', 'Cascadia Code', 'Roboto Mono', monospace;
+}
+
+code {
+    background: var(--code-bg);
+    color: var(--code-text);
+    font-size: 0.85em;
+    padding: 0.12em 0.35em;
+    border-radius: 4px;
+}
+
+pre {
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 0.9em 1em;
+    border-radius: 6px;
+    overflow-x: auto;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    padding: 0;
+    font-size: 0.85em;
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background: var(--rule);
+    margin: 2.2em 0;
+}
+
+/* Tables: light cell rules, comfortable padding. */
+table {
+    border-collapse: collapse;
+    margin: 1.4em 0;
+    font-size: 0.95em;
+}
+
+th, td {
+    border: 1px solid var(--rule);
+    padding: 0.45em 0.7em;
+    text-align: left;
+}
+
+th {
+    color: var(--heading);
+    font-weight: 700;
+}
+
+/* ------------------------------------------------------------
+   Footnotes (newsfoot). The popover structure comes from the
+   app's core.css; this supplies the colors for both schemes.
+   ------------------------------------------------------------ */
+a.footnote {
+    background: var(--code-bg);
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.newsfoot-footnote-popover {
+    background: var(--footnote-border);
+}
+
+.newsfoot-footnote-popover-inner {
+    background: var(--footnote-bg);
+    color: var(--footnote-text);
+}
+
+.newsfoot-footnote-popover-arrow {
+    background: var(--footnote-border);
+}
