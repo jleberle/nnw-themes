@@ -86,8 +86,9 @@ a:hover {
 }
 
 /* ------------------------------------------------------------
-   Feed header: feed title + byline on the left, avatar on the
-   right, separated from the article by a thin rule.
+   Feed header: author / byline on the left, avatar on the
+   right, separated from the article by a thin rule. No cell
+   borders — it's a plain layout, not a data table.
    ------------------------------------------------------------ */
 .headerContainer {
     border-bottom: 1px solid var(--rule);
@@ -114,15 +115,17 @@ a:hover {
     text-align: right;
 }
 
-.feedlink,
-.feedlink:hover {
+/* Byline: author name(s) get a touch more weight than the
+   surrounding secondary text; links inside stay quiet. */
+.header a,
+.header a:hover {
     color: var(--heading);
     text-decoration: none;
     font-weight: 700;
     letter-spacing: -0.01em;
 }
 
-.feedlink:hover {
+.header a:hover {
     color: var(--accent);
 }
 
@@ -292,20 +295,23 @@ hr {
     margin: 2.2em 0;
 }
 
-/* Tables: light cell rules, comfortable padding. */
-table {
+/* Tables: light cell rules, comfortable padding.
+   Scoped to article body so the header's layout table stays
+   borderless (no boxes around the byline / avatar). */
+.articleBody table {
     border-collapse: collapse;
     margin: 1.4em 0;
     font-size: 0.95em;
 }
 
-th, td {
+.articleBody th,
+.articleBody td {
     border: 1px solid var(--rule);
     padding: 0.45em 0.7em;
     text-align: left;
 }
 
-th {
+.articleBody th {
     color: var(--heading);
     font-weight: 700;
 }
