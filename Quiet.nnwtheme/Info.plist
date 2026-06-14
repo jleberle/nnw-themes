@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>ThemeIdentifier</key>
-	<string>org.jaredeberle.serif</string>
+	<string>org.jaredeberle.quiet</string>
 	<key>Name</key>
-	<string>Eberle Serif</string>
+	<string>Quiet</string>
 	<key>CreatorHomePage</key>
 	<string>https://jaredeberle.org</string>
 	<key>CreatorName</key>

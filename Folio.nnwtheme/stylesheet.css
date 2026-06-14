@@ -1,5 +1,5 @@
 /* ============================================================
-   Eberle Serif — a NetNewsWire reading theme.
+   Folio — a NetNewsWire reading theme.
    Modeled on jaredeberle.org: Georgia serif, tightened measure,
    balanced headings, high-readability body type. The Solarized
    palette of the site is intentionally dropped in favor of a
@@ -115,13 +115,14 @@ a:hover {
     text-align: right;
 }
 
-/* Feed / site name: the prominent line — larger and bold,
-   in the heading color regardless of what the feed emits. */
+/* Feed / site name: the prominent line — larger but normal weight
+   so it doesn't compete with the bold article title, in the heading
+   color regardless of what the feed emits. */
 .feedName {
     font-size: 1.3rem;
     line-height: 1.3;
-    font-weight: 700;
-    letter-spacing: -0.01em;
+    font-weight: 400;
+    letter-spacing: 0;
     color: var(--heading);
 }
 
@@ -175,9 +176,9 @@ a:hover {
 }
 
 .articleTitle h1 {
-    font-size: 1.9em;
+    font-size: 1.6em;
     line-height: 1.2;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.01em;
     text-wrap: balance;
     text-rendering: optimizeLegibility;
     margin: 0;
@@ -344,6 +345,28 @@ hr {
 .articleBody th {
     color: var(--heading);
     font-weight: 700;
+}
+
+/* ------------------------------------------------------------
+   System placeholder states.
+   NetNewsWire injects a bare <h3 class="systemMessage"> for
+   "No selection", "Loading…", and "Multiple selection". Pin it to
+   the true center of the pane (both axes) and quiet it down to the
+   secondary tone in a normal weight, so an empty selection reads as
+   calm rather than a stray heading. Fixed positioning centers
+   against the pane itself, ignoring the article measure and padding.
+   ------------------------------------------------------------ */
+.systemMessage {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    text-align: center;
+    font-weight: 400;
+    font-size: 1rem;
+    letter-spacing: 0;
+    color: var(--secondary);
 }
 
 /* ------------------------------------------------------------
