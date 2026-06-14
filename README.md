@@ -3,5 +3,5 @@ Basic theme for NetNewsWire that uses serif fonts and is modeled after my [websi
 Install with this URL:
 
 ```
-[netnewswire://theme/add?url=https://codeberg.org/jleberle/nnw-theme/archive/main.zip](netnewswire://theme/add?url=https://codeberg.org/jleberle/nnw-theme/archive/main.zip)
+netnewswire://theme/add?url=https://codeberg.org/jleberle/nnw-theme/archive/main.zip
 ```
