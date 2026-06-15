@@ -6,10 +6,11 @@
    The look is built from a handful of the magazine's signatures:
    a Caslon-style old-style serif for everything (Hoefler Text is
    the closest face shipped on every Mac), a single scarlet red
-   reserved for the department rubric and links, a centered
-   masthead opener — rubric, headline, byline in small caps — and
-   a drop cap to begin the article. Black ink on white, quiet
-   everywhere the red and the type aren't doing the work.
+   reserved for the department rubric and links, and a centered
+   masthead opener — rubric, headline, byline in small caps. Black
+   ink on white, quiet everywhere the red and the type aren't doing
+   the work. In dark mode the accent shifts to a cool cyan (shared
+   with the Folio theme) rather than carrying the red across.
    ============================================================ */
 
 /* ------------------------------------------------------------
@@ -21,11 +22,11 @@
     --text:           #181818;   /* body copy                        */
     --heading:        #0d0d0d;   /* headline + prose headings        */
     --secondary:      #5f5f5f;   /* byline, dateline, captions       */
-    --accent:         #c8102e;   /* scarlet — rubric, links, drop cap */
+    --accent:         #c8102e;   /* scarlet — rubric and links       */
     --accent-hover:   #94001f;
     --rule:           #e3e3e3;   /* hr, table rules                  */
     --rule-strong:    #1d1d1d;   /* the hairline under the masthead  */
-    --quote-rule:     #c8102e;   /* blockquote bar takes the scarlet */
+    --quote-rule:     #d6d6d6;   /* blockquote bar — Folio's gray    */
     --quote-text:     #3a3a3a;
     --code-bg:        #f3f1ec;   /* inline + block code background    */
     --code-text:      #2a2a2a;
@@ -36,8 +37,9 @@
 
 /* ------------------------------------------------------------
    Dark theme — a warm near-black page with off-white ink (never
-   pure white, which glares against a dark serif). The scarlet
-   lifts to a brighter coral so it keeps its punch on the dark.
+   pure white, which glares against a dark serif). The accent drops
+   the red here and takes Folio's cool cyan, which reads more calmly
+   than a hot red against the dark.
    ------------------------------------------------------------ */
 @media (prefers-color-scheme: dark) {
     :root {
@@ -45,11 +47,11 @@
         --text:           #ddd8cf;
         --heading:        #f6f2ea;
         --secondary:      #9a948a;
-        --accent:         #ff5b67;
-        --accent-hover:   #ff868f;
+        --accent:         #5ec8bd;   /* Folio's dark cyan accent     */
+        --accent-hover:   #84d7ce;
         --rule:           #34322e;
         --rule-strong:    #c9c3b8;
-        --quote-rule:     #ff5b67;
+        --quote-rule:     #45454a;   /* blockquote bar — Folio's gray */
         --quote-text:     #b8b2a8;
         --code-bg:        #221f1c;
         --code-text:      #ddd8cf;
@@ -149,7 +151,7 @@ article {
 .articleTitle h1 {
     font-size: 2.1em;
     line-height: 1.14;
-    font-weight: 700;
+    font-weight: 400;   /* standard weight, as in Folio — not bold */
     letter-spacing: -0.005em;
     text-wrap: balance;
     text-rendering: optimizeLegibility;
@@ -168,7 +170,7 @@ article {
 .byline,
 .byline a,
 .byline a:hover {
-    font-size: 0.82rem;
+    font-size: 0.92rem;
     font-weight: 400;
     font-variant: small-caps;
     letter-spacing: 0.08em;
@@ -187,7 +189,7 @@ article {
 
 .articleDateline,
 .articleDatelineTitle {
-    font-size: 0.78rem;
+    font-size: 0.92rem;
     font-style: italic;
     color: var(--secondary);
     margin-top: 0.5em;
@@ -226,21 +228,6 @@ article {
 .largeText  { font-size: 20px; }
 .xlargeText { font-size: 22px; }
 .xxlargeText{ font-size: 25px; }
-
-/* Drop cap. The opening letter of the article is set large and
-   in scarlet — the New Yorker's signature initial. Applied to the
-   body container rather than a child <p>: WebKit drills ::first-letter
-   into the first formatted line whether the opening text is bare or
-   wrapped in a paragraph, so it works across feeds. ::first-letter
-   only generates one pseudo-element, so it never repeats. */
-.articleBody::first-letter {
-    float: left;
-    font-size: 3.4em;
-    line-height: 0.72;
-    font-weight: 700;
-    color: var(--accent);
-    margin: 0.06em 0.08em 0 0;
-}
 
 /* Prose headings: serif, tight, balanced — no all-caps shouting.
    Generous space above sets each section off. */
@@ -325,8 +312,8 @@ figcaption {
     margin-top: 0.5em;
 }
 
-/* Blockquotes: a scarlet hairline bar and a muted tone — the
-   pull-quote color without the fill. */
+/* Blockquotes: a quiet gray bar (Folio's) and a muted, italic tone —
+   the pull-quote treatment without the fill. */
 blockquote {
     margin: 1.5em 0;
     padding: 0.1em 0 0.1em 1.2em;

@@ -20,7 +20,7 @@ netnewswire://theme/add?url=https://codeberg.org/jleberle/nnw-theme/raw/branch/m
 
 ## Eustace
 
-A serif theme in The New Yorker's house style — a Caslon-like face (Hoefler Text), a centered masthead with the feed name as a scarlet department rubric, a small-caps byline, and a drop cap to open each article. Named for Eustace Tilley, the magazine's mascot.
+A serif theme in The New Yorker's house style — a Caslon-like face (Hoefler Text) and a centered masthead with the feed name as a scarlet department rubric, the headline in a standard weight, and a small-caps byline. The red accent gives way to a cool cyan in dark mode. Named for Eustace Tilley, the magazine's mascot.
 
 ```
 netnewswire://theme/add?url=https://codeberg.org/jleberle/nnw-theme/raw/branch/main/dist/Eustace.zip
