@@ -1,0 +1,456 @@
+/* ============================================================
+   Eustace — a NetNewsWire reading theme in The New Yorker's
+   house style. Named for Eustace Tilley, the magazine's
+   monocled dandy.
+
+   The look is built from a handful of the magazine's signatures:
+   a Caslon-style old-style serif for everything (Hoefler Text is
+   the closest face shipped on every Mac), a single scarlet red
+   reserved for the department rubric and links, a centered
+   masthead opener — rubric, headline, byline in small caps — and
+   a drop cap to begin the article. Black ink on white, quiet
+   everywhere the red and the type aren't doing the work.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   Light theme (default). Bright white page, near-black ink,
+   the New Yorker scarlet for rubric and links.
+   ------------------------------------------------------------ */
+:root {
+    --bg:             #ffffff;
+    --text:           #181818;   /* body copy                        */
+    --heading:        #0d0d0d;   /* headline + prose headings        */
+    --secondary:      #5f5f5f;   /* byline, dateline, captions       */
+    --accent:         #c8102e;   /* scarlet — rubric, links, drop cap */
+    --accent-hover:   #94001f;
+    --rule:           #e3e3e3;   /* hr, table rules                  */
+    --rule-strong:    #1d1d1d;   /* the hairline under the masthead  */
+    --quote-rule:     #c8102e;   /* blockquote bar takes the scarlet */
+    --quote-text:     #3a3a3a;
+    --code-bg:        #f3f1ec;   /* inline + block code background    */
+    --code-text:      #2a2a2a;
+    --footnote-edge:  #d9d7d2;
+    --footnote-bg:    #fbfaf7;
+    --footnote-text:  #161616;
+}
+
+/* ------------------------------------------------------------
+   Dark theme — a warm near-black page with off-white ink (never
+   pure white, which glares against a dark serif). The scarlet
+   lifts to a brighter coral so it keeps its punch on the dark.
+   ------------------------------------------------------------ */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg:             #151311;
+        --text:           #ddd8cf;
+        --heading:        #f6f2ea;
+        --secondary:      #9a948a;
+        --accent:         #ff5b67;
+        --accent-hover:   #ff868f;
+        --rule:           #34322e;
+        --rule-strong:    #c9c3b8;
+        --quote-rule:     #ff5b67;
+        --quote-text:     #b8b2a8;
+        --code-bg:        #221f1c;
+        --code-text:      #ddd8cf;
+        --footnote-edge:  #3a3631;
+        --footnote-bg:    #1e1b18;
+        --footnote-text:  #e9e4db;
+    }
+}
+
+/* ------------------------------------------------------------
+   Page surface + body type.
+   Hoefler Text leads the stack — a refined old-style serif on
+   every Mac that stands in beautifully for the magazine's
+   Caslon — with Caslon/Garamond names ahead of Georgia for any
+   machine that has them. A ~38em measure, 1.62 line-height, and
+   old-style (text) figures keep the column reading like a page.
+   ------------------------------------------------------------ */
+body {
+    font-family: 'Hoefler Text', 'Adobe Caslon Pro', 'Big Caslon',
+                 Garamond, 'Times New Roman', Georgia, serif;
+    font-size: 19px;
+    line-height: 1.62;
+    color: var(--text);
+    background: var(--bg);
+    max-width: 38em;
+    margin: 0 auto;
+    padding: 2.25em 1.25em 5em;
+    font-variant-numeric: oldstyle-nums;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: none;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.15em;
+}
+
+a:hover {
+    color: var(--accent-hover);
+    text-underline-offset: 0.2em;
+}
+
+/* ------------------------------------------------------------
+   Masthead. The whole opener is centered like the head of a
+   New Yorker piece. The feed name plays the part of the
+   department rubric: small, letterspaced, all caps, in scarlet.
+   A hairline rule under the block sets the head off from the
+   article the way a column rule does in print.
+   ------------------------------------------------------------ */
+.headerContainer {
+    text-align: center;
+    margin-bottom: 1.4em;
+}
+
+.rubric {
+    line-height: 1.3;
+}
+
+.rubricLink,
+.rubricLink:hover {
+    display: inline-block;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.rubricLink:hover {
+    color: var(--accent-hover);
+}
+
+/* Collapse the rubric (and its margin) when a feed has no title. */
+.rubric:empty {
+    display: none;
+}
+
+/* ------------------------------------------------------------
+   Headline + byline + dateline — the centered masthead stack.
+   The headline is the one piece of real display type: large
+   serif, tight leading, balanced wrapping. The byline sits
+   under it in letterspaced small caps; the date is quieter still.
+   ------------------------------------------------------------ */
+article {
+    text-align: center;
+}
+
+.articleTitle {
+    margin: 0 0 0.3em;
+}
+
+.articleTitle h1 {
+    font-size: 2.1em;
+    line-height: 1.14;
+    font-weight: 700;
+    letter-spacing: -0.005em;
+    text-wrap: balance;
+    text-rendering: optimizeLegibility;
+    margin: 0;
+}
+
+.articleTitle h1 a,
+.articleTitle h1 a:hover {
+    color: var(--heading);
+    text-decoration: none;
+}
+
+/* Byline: "By Author" in letterspaced small caps, the magazine's
+   signature contributor line. Forced on whether or not the feed
+   wraps the author in a link. */
+.byline,
+.byline a,
+.byline a:hover {
+    font-size: 0.82rem;
+    font-weight: 400;
+    font-variant: small-caps;
+    letter-spacing: 0.08em;
+    color: var(--secondary);
+    text-decoration: none;
+}
+
+.byline a:hover {
+    color: var(--accent);
+}
+
+/* Collapse the byline line entirely when the feed gives no author. */
+.byline:empty {
+    display: none;
+}
+
+.articleDateline,
+.articleDatelineTitle {
+    font-size: 0.78rem;
+    font-style: italic;
+    color: var(--secondary);
+    margin-top: 0.5em;
+    padding-bottom: 1.6em;
+    border-bottom: 1px solid var(--rule-strong);
+    margin-bottom: 1.9em;
+}
+
+.articleDateline a,
+.articleDatelineTitle a,
+.articleDateline a:hover,
+.articleDatelineTitle a:hover {
+    color: var(--secondary);
+    text-decoration: none;
+}
+
+.externalLink {
+    font-size: 0.78rem;
+    color: var(--secondary);
+    margin-bottom: 1.6em;
+    word-break: break-all;
+}
+
+/* ------------------------------------------------------------
+   Article body. Breaks out of the centered masthead back to a
+   normal left-aligned column, and honors the reader's text-size
+   preference through the size classes below.
+   ------------------------------------------------------------ */
+.articleBody {
+    text-align: left;
+    margin-top: 0.5em;
+}
+
+.smallText  { font-size: 16px; }
+.mediumText { font-size: 18px; }
+.largeText  { font-size: 20px; }
+.xlargeText { font-size: 22px; }
+.xxlargeText{ font-size: 25px; }
+
+/* Drop cap. The opening letter of the article is set large and
+   in scarlet — the New Yorker's signature initial. Applied to the
+   body container rather than a child <p>: WebKit drills ::first-letter
+   into the first formatted line whether the opening text is bare or
+   wrapped in a paragraph, so it works across feeds. ::first-letter
+   only generates one pseudo-element, so it never repeats. */
+.articleBody::first-letter {
+    float: left;
+    font-size: 3.4em;
+    line-height: 0.72;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 0.06em 0.08em 0 0;
+}
+
+/* Prose headings: serif, tight, balanced — no all-caps shouting.
+   Generous space above sets each section off. */
+.articleBody h1,
+.articleBody h2,
+.articleBody h3,
+.articleBody h4,
+.articleBody h5,
+.articleBody h6 {
+    color: var(--heading);
+    line-height: 1.22;
+    font-weight: 700;
+    letter-spacing: -0.005em;
+    text-wrap: balance;
+    text-rendering: optimizeLegibility;
+    margin: 1.7em 0 0.5em;
+}
+
+.articleBody h1 { font-size: 1.55em; }
+.articleBody h2 { font-size: 1.32em; }
+.articleBody h3 { font-size: 1.14em; }
+.articleBody h4 { font-size: 1em; }
+
+/* Smallest headings become a letterspaced small-caps label —
+   the magazine's running subhead treatment. */
+.articleBody h5,
+.articleBody h6 {
+    font-size: 0.86em;
+    font-weight: 700;
+    font-variant: small-caps;
+    letter-spacing: 0.07em;
+    color: var(--secondary);
+}
+
+.articleBody p {
+    margin: 0 0 1.1em;
+    text-wrap: pretty;   /* avoid single-word last lines where supported */
+}
+
+.articleBody li {
+    margin-bottom: 0.4em;
+    text-wrap: pretty;
+}
+
+.articleBody ul,
+.articleBody ol {
+    padding-left: 1.4em;
+}
+
+/* Images scale down without distortion (explicit attrs preserved). */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Embedded media. Feeds embed YouTube and the like as <iframe>s with
+   fixed width/height attributes, which overflow a narrow phone column.
+   Cap every embed to the column, and give iframes a fluid 16:9 box so a
+   video fills the width and scales its height instead of spilling out. */
+iframe,
+video,
+embed,
+object {
+    max-width: 100%;
+}
+
+iframe {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+}
+
+figure {
+    margin: 1.8em 0;
+}
+
+figcaption {
+    font-size: 0.78rem;
+    font-style: italic;
+    color: var(--secondary);
+    text-align: center;
+    margin-top: 0.5em;
+}
+
+/* Blockquotes: a scarlet hairline bar and a muted tone — the
+   pull-quote color without the fill. */
+blockquote {
+    margin: 1.5em 0;
+    padding: 0.1em 0 0.1em 1.2em;
+    border-left: 2px solid var(--quote-rule);
+    color: var(--quote-text);
+    font-style: italic;
+}
+
+blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+/* Code: neutral fill, system monospace stack. */
+code, pre, kbd, samp, tt {
+    font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+                 'Liberation Mono', 'Cascadia Code', 'Roboto Mono', monospace;
+}
+
+code {
+    background: var(--code-bg);
+    color: var(--code-text);
+    font-size: 0.82em;
+    padding: 0.12em 0.35em;
+    border-radius: 4px;
+}
+
+pre {
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 0.95em 1.1em;
+    border-radius: 6px;
+    overflow-x: auto;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    padding: 0;
+    font-size: 0.85em;
+}
+
+/* The New Yorker section break: a centered cluster of dots
+   rather than an edge-to-edge line. */
+hr {
+    border: none;
+    height: auto;
+    text-align: center;
+    margin: 2.4em 0;
+    color: var(--accent);
+}
+
+hr::before {
+    content: "\2766";   /* floral heart — a print-style ornament */
+    font-size: 1.4em;
+    line-height: 1;
+}
+
+/* Tables: hairline rules, comfortable padding. Scoped to the
+   body so the masthead stays free of any borders. */
+.articleBody table {
+    border-collapse: collapse;
+    margin: 1.5em 0;
+    font-size: 0.94em;
+}
+
+.articleBody th,
+.articleBody td {
+    border: 1px solid var(--rule);
+    padding: 0.45em 0.7em;
+    text-align: left;
+}
+
+.articleBody th {
+    color: var(--heading);
+    font-weight: 700;
+}
+
+/* ------------------------------------------------------------
+   System placeholder states.
+   NetNewsWire injects a bare <h3 class="systemMessage"> for
+   "No selection", "Loading…", and "Multiple selection". Pin it to
+   the true center of the pane (both axes) and quiet it to the
+   secondary tone in a normal italic, so an empty selection reads
+   as calm rather than a stray heading. Fixed positioning centers
+   against the pane itself, ignoring the article measure and padding.
+   ------------------------------------------------------------ */
+.systemMessage {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    text-align: center;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1rem;
+    letter-spacing: 0;
+    color: var(--secondary);
+}
+
+/* ------------------------------------------------------------
+   Footnotes (newsfoot). The popover structure comes from the
+   app's core.css; this supplies the colors for both schemes.
+   ------------------------------------------------------------ */
+a.footnote {
+    background: var(--code-bg);
+    color: var(--accent);
+    text-decoration: none;
+}
+
+a.footnote:hover {
+    color: var(--accent-hover);
+}
+
+.newsfoot-footnote-popover {
+    background: var(--footnote-edge);
+}
+
+.newsfoot-footnote-popover-inner {
+    background: var(--footnote-bg);
+    color: var(--footnote-text);
+}
+
+.newsfoot-footnote-popover-arrow {
+    background: var(--footnote-bg);
+    border-color: var(--footnote-edge);
+}
