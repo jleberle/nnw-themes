@@ -261,6 +261,23 @@ img {
     height: auto;
 }
 
+/* Embedded media. Feeds embed YouTube and the like as <iframe>s with
+   fixed width/height attributes, which overflow a narrow phone column.
+   Cap every embed to the column, and give iframes a fluid 16:9 box so a
+   video fills the width and scales its height instead of spilling out. */
+iframe,
+video,
+embed,
+object {
+    max-width: 100%;
+}
+
+iframe {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+}
+
 figure {
     margin: 1.8em 0;
 }
