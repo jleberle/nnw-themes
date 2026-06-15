@@ -103,6 +103,13 @@ a:hover {
     text-underline-offset: 0.2em;
 }
 
+/* Touch has no hover state, so deepen the link on tap instead —
+   a brief confirmation that the press registered. */
+a:active {
+    color: var(--accent-hover);
+    text-underline-offset: 0.2em;
+}
+
 /* ------------------------------------------------------------
    Masthead. The whole opener is centered like the head of a
    New Yorker piece. The feed name plays the part of the
