@@ -12,7 +12,7 @@ netnewswire://theme/add?url=https://codeberg.org/jleberle/nnw-theme/raw/branch/m
 
 ## Quiet
 
-A minimal, near-monochrome sans-serif theme focused on readability. Links take the text color with a hairline underline (the accent only appears on hover), and hierarchy is built from weight and whitespace rather than boxes or color.
+A minimal, near-monochrome sans-serif theme built phone-first for comfortable reading on a small screen — a fluid headline that scales to the viewport, safe-area-aware margins, and tap feedback on links — while staying clean at tablet and desktop widths. Links take the text color with a hairline underline (the accent appears on hover or tap), and hierarchy is built from weight and whitespace rather than boxes or color.
 
 ```
 netnewswire://theme/add?url=https://codeberg.org/jleberle/nnw-theme/raw/branch/main/dist/Quiet.zip

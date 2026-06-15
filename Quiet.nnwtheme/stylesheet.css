@@ -1,13 +1,17 @@
 /* ============================================================
-   Quiet — a minimal NetNewsWire reading theme.
+   Quiet — a minimal, phone-first NetNewsWire reading theme.
    Design goal: get out of the way. A native system-sans face,
    a near-monochrome palette, and generous whitespace so the
    only thing with any visual weight on the page is the writing.
 
+   Built for the small screen first: a fluid headline, safe-area
+   aware margins, and tap feedback on links, all of which carry
+   over cleanly to the tablet and desktop widths above them.
+
    Links are intentionally NOT colored — they take the text
    color with a hairline underline. The single accent shows up
-   only on hover. Hierarchy is built from weight, size, and
-   space, never from boxes, rules, or color.
+   only on hover or tap. Hierarchy is built from weight, size,
+   and space, never from boxes, rules, or color.
    ============================================================ */
 
 /* ------------------------------------------------------------
@@ -64,6 +68,12 @@
    elsewhere. A ~36em measure keeps lines in the comfortable
    60–70ch range; 1.65 line-height and antialiasing keep the
    column easy on the eyes over a long article.
+
+   Phone-first spacing: a snug top so more of the article sits
+   above the fold on a short screen, and side padding that grows
+   to clear the notch / home indicator in landscape via the
+   safe-area insets. The min-width query below restores the more
+   generous vertical breathing room on tablet and desktop.
    ------------------------------------------------------------ */
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text',
@@ -74,11 +84,20 @@ body {
     background: var(--bg);
     max-width: 36em;
     margin: 0 auto;
-    padding: 2.5em 1.25em 5em;
+    padding: 1.6em 1.25em 4em;
+    padding-left: max(1.25em, env(safe-area-inset-left));
+    padding-right: max(1.25em, env(safe-area-inset-right));
     -webkit-font-smoothing: antialiased;
     -webkit-text-size-adjust: none;
     word-break: break-word;
     overflow-wrap: break-word;
+}
+
+@media (min-width: 600px) {
+    body {
+        padding-top: 2.5em;
+        padding-bottom: 5em;
+    }
 }
 
 /* Links: text-colored with a quiet underline. The accent is a
@@ -94,6 +113,13 @@ a {
 }
 
 a:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+}
+
+/* Touch has no hover state, so surface the accent on tap instead —
+   a brief confirmation that the link registered the press. */
+a:active {
     color: var(--accent);
     text-decoration-color: var(--accent);
 }
@@ -155,8 +181,11 @@ a:hover {
     margin: 0 0 0.1em;
 }
 
+/* Fluid headline: scales with the viewport so it stays in proportion
+   on a narrow phone (~26px) and grows to the full size on a wide screen
+   (~36px), instead of one fixed size that wraps awkwardly when narrow. */
 .articleTitle h1 {
-    font-size: 2em;
+    font-size: clamp(1.6rem, 1.1rem + 2.2vw, 2.25rem);
     line-height: 1.18;
     font-weight: 700;
     letter-spacing: -0.02em;
@@ -240,14 +269,21 @@ a:hover {
     color: var(--secondary);
 }
 
+/* Soft hyphenation evens out the rag in the narrow phone column and
+   keeps long words from forcing wide gaps. Only engages when the feed
+   declares a language WebKit can hyphenate; otherwise it's a no-op. */
 .articleBody p {
     margin: 0 0 1.2em;
     text-wrap: pretty;   /* avoid single-word last lines where supported */
+    -webkit-hyphens: auto;
+    hyphens: auto;
 }
 
 .articleBody li {
     margin-bottom: 0.45em;
     text-wrap: pretty;
+    -webkit-hyphens: auto;
+    hyphens: auto;
 }
 
 .articleBody ul,
