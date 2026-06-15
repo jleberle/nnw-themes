@@ -26,7 +26,7 @@
     --secondary:     #76757a;   /* feed name, byline, dateline      */
     --faint:         #9a999e;   /* external link, captions          */
     --accent:        #2f6fed;   /* hover only — never at rest       */
-    --underline:     #cfcecb;   /* link underline at rest           */
+    --underline:     #a3a29e;   /* link underline at rest           */
     --rule:          #ececea;   /* the few dividers there are       */
     --quote-rule:    #dcdbd8;   /* blockquote bar                   */
     --quote-text:    #4a4a4d;
@@ -50,7 +50,7 @@
         --secondary:     #8d8c91;
         --faint:         #6f6e73;
         --accent:        #6ea0ff;
-        --underline:     #3a3a3d;
+        --underline:     #7c7b81;
         --rule:          #29292c;
         --quote-rule:    #38383b;
         --quote-text:    #b3b2af;
@@ -100,14 +100,16 @@ body {
     }
 }
 
-/* Links: text-colored with a quiet underline. The accent is a
-   hover-only reward, so a paragraph full of links still reads
-   as prose rather than a field of blue. */
+/* Links: text-colored — staying monochrome — but the underline does
+   the signaling, so it's a clearly visible gray (lifted further on the
+   dark surface, where a hairline all but vanishes) at a slightly
+   thicker stroke. The accent stays a hover/tap reward, so a paragraph
+   full of links still reads as prose rather than a field of blue. */
 a {
     color: inherit;
     text-decoration: underline;
     text-decoration-color: var(--underline);
-    text-decoration-thickness: 1px;
+    text-decoration-thickness: 1.5px;
     text-underline-offset: 0.18em;
     transition: color 0.12s ease, text-decoration-color 0.12s ease;
 }
