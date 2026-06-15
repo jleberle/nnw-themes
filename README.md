@@ -1,10 +1,10 @@
 # NetNewsWire themes
 
-Three reading themes for [NetNewsWire](https://netnewswire.com), all built for comfortable, distraction-free reading.
+Three reading themes for [NetNewsWire](https://netnewswire.com), all built for comfortable, distraction-free reading: a phone-first serif (**Folio**), a phone-first sans (**Quiet**), and a desktop magazine style (**Eustace**).
 
 ## Folio
 
-A serif theme modeled after my [website](https://jaredeberle.org) — Georgia type, a tightened measure, and a warm paper-light / charcoal-dark reading surface.
+A phone-first serif theme modeled after my [website](https://jaredeberle.org) — Georgia type, a tightened measure, and a warm paper-light / charcoal-dark reading surface. Built for the small screen first with a fluid headline that scales to the viewport, safe-area-aware margins, tap feedback on links, and soft hyphenation in the narrow column, while staying comfortable at tablet and desktop widths. The serif counterpart to Quiet.
 
 ```
 netnewswire://theme/add?url=https://codeberg.org/jleberle/nnw-theme/raw/branch/main/dist/Folio.zip
@@ -20,7 +20,7 @@ netnewswire://theme/add?url=https://codeberg.org/jleberle/nnw-theme/raw/branch/m
 
 ## Eustace
 
-A serif theme in The New Yorker's house style — a Caslon-like face (Hoefler Text) and a centered masthead with the feed name as a scarlet department rubric, the headline in a standard weight, and a small-caps byline. The red accent gives way to a cool cyan in dark mode. Named for Eustace Tilley, the magazine's mascot.
+A desktop-oriented serif theme in The New Yorker's house style — a Caslon-like face (Hoefler Text) and a centered masthead with the feed name as a scarlet department rubric, the headline in a standard weight, and a small-caps byline. The red accent gives way to a cool cyan in dark mode. The magazine layout is happiest at a roomy reading-pane width. Named for Eustace Tilley, the magazine's mascot.
 
 ```
 netnewswire://theme/add?url=https://codeberg.org/jleberle/nnw-theme/raw/branch/main/dist/Eustace.zip

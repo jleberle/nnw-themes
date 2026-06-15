@@ -1,9 +1,15 @@
 /* ============================================================
-   Folio — a NetNewsWire reading theme.
+   Folio — a phone-first serif NetNewsWire reading theme.
    Modeled on jaredeberle.org: Georgia serif, tightened measure,
    balanced headings, high-readability body type. The Solarized
    palette of the site is intentionally dropped in favor of a
    neutral paper-light / warm-dark reading surface.
+
+   Built for the small screen first — a fluid headline, safe-area
+   aware margins, tap feedback on links, and soft hyphenation in
+   the narrow column — all of which carry over cleanly to the
+   wider tablet and desktop measure above them. The serif
+   companion to the sans-serif Quiet theme.
    ============================================================ */
 
 /* ------------------------------------------------------------
@@ -57,6 +63,11 @@
    in the pane keep lines in the comfortable 60–75 character
    range that serif body reads best in. Grayscale antialiasing
    on macOS renders the serif a touch lighter and cleaner.
+
+   Phone-first spacing: side padding grows to clear the notch /
+   home indicator in landscape via the safe-area insets, and the
+   min-width query below restores a little more vertical breathing
+   room once there's a tablet/desktop measure to spend it on.
    ------------------------------------------------------------ */
 body {
     font-family: Georgia, Cambria, 'Times New Roman', Times, serif;
@@ -67,10 +78,19 @@ body {
     max-width: 40em;
     margin: 0 auto;
     padding: 1.5em 1.25em 4em;
+    padding-left: max(1.25em, env(safe-area-inset-left));
+    padding-right: max(1.25em, env(safe-area-inset-right));
     -webkit-font-smoothing: antialiased;
     -webkit-text-size-adjust: none;
     word-break: break-word;
     overflow-wrap: break-word;
+}
+
+@media (min-width: 600px) {
+    body {
+        padding-top: 2em;
+        padding-bottom: 5em;
+    }
 }
 
 a {
@@ -81,6 +101,13 @@ a {
 }
 
 a:hover {
+    color: var(--accent-hover);
+    text-underline-offset: 0.2em;
+}
+
+/* Touch has no hover state, so deepen the link on tap instead —
+   a brief confirmation that the press registered. */
+a:active {
     color: var(--accent-hover);
     text-underline-offset: 0.2em;
 }
@@ -175,8 +202,12 @@ a:hover {
     margin: 0.2em 0 0.15em;
 }
 
+/* Fluid headline: scales with the viewport so it stays in proportion
+   on a narrow phone (~23px) and grows to the full size on a wide
+   screen (~29px), rather than one fixed size that wraps awkwardly
+   when narrow. */
 .articleTitle h1 {
-    font-size: 1.6em;
+    font-size: clamp(1.45rem, 1.05rem + 1.8vw, 1.8rem);
     line-height: 1.2;
     letter-spacing: -0.01em;
     text-wrap: balance;
@@ -246,14 +277,21 @@ a:hover {
 .articleBody h3 { font-size: 1.15em; }
 .articleBody h4 { font-size: 1em; }
 
+/* Soft hyphenation evens out the rag in the narrow phone column and
+   keeps long words from forcing wide gaps. Only engages when the feed
+   declares a language WebKit can hyphenate; otherwise it's a no-op. */
 .articleBody p {
     margin: 0 0 1.1em;
     text-wrap: pretty;   /* avoid single-word last lines where supported */
+    -webkit-hyphens: auto;
+    hyphens: auto;
 }
 
 .articleBody li {
     margin-bottom: 0.4em;
     text-wrap: pretty;
+    -webkit-hyphens: auto;
+    hyphens: auto;
 }
 
 .articleBody ul,
