@@ -1,6 +1,11 @@
 # NetNewsWire themes
 
-Three reading themes for [NetNewsWire](https://netnewswire.com), all built for comfortable, distraction-free reading: a phone-first serif (**Folio**), a phone-first sans (**Quiet**), and a desktop magazine style (**Eustace**).
+Four reading themes for [NetNewsWire](https://netnewswire.com), all built for comfortable, distraction-free reading. They pair off by typeface and screen:
+
+|         | Phone-first | Desktop-first |
+| ------- | ----------- | ------------- |
+| Serif   | **Folio**   | **Eustace**   |
+| Sans    | **Quiet**   | **Atrium**    |
 
 ## Folio
 
@@ -24,6 +29,14 @@ A desktop-oriented serif theme in The New Yorker's house style — a Caslon-like
 
 ```
 netnewswire://theme/add?url=https://codeberg.org/jleberle/nnw-theme/raw/branch/main/dist/Eustace.zip
+```
+
+## Atrium
+
+The desktop-first sans theme — Quiet's minimal, near-monochrome sans styling scaled up for a roomy reading pane, with larger type, a confident headline, and generous whitespace. Links stay text-colored with a clearly visible underline (the accent appears on hover or tap), and hierarchy is built from weight and whitespace rather than boxes or color. The sans counterpart to Eustace, and the wide-screen counterpart to Quiet.
+
+```
+netnewswire://theme/add?url=https://codeberg.org/jleberle/nnw-theme/raw/branch/main/dist/Atrium.zip
 ```
 
 ## Installing

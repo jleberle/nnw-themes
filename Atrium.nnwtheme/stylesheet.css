@@ -1,0 +1,437 @@
+/* ============================================================
+   Atrium — a minimal, desktop-first NetNewsWire reading theme.
+   The sans-serif companion to the desktop serif Eustace, and the
+   wide-screen counterpart to the phone-first Quiet: same native
+   system-sans face, same near-monochrome palette, same "get out
+   of the way" minimalism, but tuned for a roomy reading pane —
+   larger type, a confident headline, and generous whitespace.
+
+   Links are intentionally NOT colored — they take the text color
+   with a clearly visible gray underline. The single accent shows
+   up only on hover or tap. Hierarchy is built from weight, size,
+   and space, never from boxes, rules, or color.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   Light theme (default). Soft off-white surface — a hair warmer
+   and dimmer than pure #fff to take the glare off long reads —
+   with near-black ink and a calm blue reserved for hover.
+   (Palette shared with Quiet, so the pair reads as one family.)
+   ------------------------------------------------------------ */
+:root {
+    --bg:            #fcfcfb;
+    --text:          #1c1c1e;   /* body copy                        */
+    --heading:       #000000;   /* titles + prose headings          */
+    --secondary:     #76757a;   /* feed name, byline, dateline      */
+    --faint:         #9a999e;   /* external link, captions          */
+    --accent:        #2f6fed;   /* hover only — never at rest       */
+    --underline:     #a3a29e;   /* link underline at rest           */
+    --rule:          #ececea;   /* the few dividers there are       */
+    --quote-rule:    #dcdbd8;   /* blockquote bar                   */
+    --quote-text:    #4a4a4d;
+    --code-bg:       #f4f3f0;   /* inline + block code background    */
+    --code-text:     #2a2a2c;
+    --footnote-bg:   #ffffff;
+    --footnote-edge: #e2e1de;
+    --footnote-text: #1c1c1e;
+}
+
+/* ------------------------------------------------------------
+   Dark theme — a true near-black surface with soft off-white
+   ink (never pure #fff, which glares). The same blue accent
+   lifts slightly for contrast against the dark.
+   ------------------------------------------------------------ */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg:            #161618;
+        --text:          #dcdbd8;
+        --heading:       #f6f5f2;
+        --secondary:     #8d8c91;
+        --faint:         #6f6e73;
+        --accent:        #6ea0ff;
+        --underline:     #7c7b81;
+        --rule:          #29292c;
+        --quote-rule:    #38383b;
+        --quote-text:    #b3b2af;
+        --code-bg:       #202023;
+        --code-text:     #dcdbd8;
+        --footnote-bg:   #1f1f22;
+        --footnote-edge: #343438;
+        --footnote-text: #e8e7e4;
+    }
+}
+
+/* ------------------------------------------------------------
+   Page surface + body type.
+   System sans stack — SF on Apple platforms, Segoe/Roboto
+   elsewhere. Sized up for the desktop: 19px on a ~38em measure
+   keeps lines in the comfortable 70–80ch range with room to
+   breathe, and 1.7 line-height keeps a wide column easy to track.
+   Generous padding frames the column in the reading pane.
+   ------------------------------------------------------------ */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text',
+                 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 19px;
+    line-height: 1.7;
+    color: var(--text);
+    background: var(--bg);
+    max-width: 38em;
+    margin: 0 auto;
+    padding: 3em 1.5em 6em;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: none;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Links: text-colored — staying monochrome — but the underline does
+   the signaling, so it's a clearly visible gray (lifted further on the
+   dark surface, where a hairline all but vanishes) at a slightly
+   thicker stroke. The accent stays a hover/tap reward, so a paragraph
+   full of links still reads as prose rather than a field of blue. */
+a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--underline);
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.18em;
+    transition: color 0.12s ease, text-decoration-color 0.12s ease;
+}
+
+a:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+}
+
+/* A touch-class desktop (iPad, touch laptop) has no hover, so surface
+   the accent on tap too — a brief confirmation of the press. */
+a:active {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+}
+
+/* ------------------------------------------------------------
+   Feed header. A single line — feed name above, byline beneath —
+   with no avatar, no rule, no box. The feed name carries real
+   weight here: a heavy, letterspaced uppercase label in the full
+   heading color, the monochrome answer to Eustace's colored
+   rubric, so the source reads as a confident masthead rather than
+   a faint tag. The byline stays quiet underneath it.
+   ------------------------------------------------------------ */
+.headerContainer {
+    margin-bottom: 3.25em;
+}
+
+.feedMeta {
+    line-height: 1.4;
+}
+
+.feedLink,
+.feedLink:hover {
+    display: inline-block;
+    font-size: 0.84rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--heading);
+    text-decoration: none;
+}
+
+.feedLink:hover {
+    color: var(--accent);
+}
+
+/* Byline: quieter still — the author, sized down, no link color. */
+.byline,
+.byline a,
+.byline a:hover {
+    font-size: 0.88rem;
+    font-weight: 400;
+    color: var(--secondary);
+    text-decoration: none;
+}
+
+.byline a:hover {
+    color: var(--accent);
+}
+
+/* Collapse the byline line entirely when the feed gives no author. */
+.byline:empty {
+    display: none;
+}
+
+/* ------------------------------------------------------------
+   Article title + dateline.
+   The title is the one element allowed real weight on the page:
+   a large, confident, tightly tracked headline with balanced
+   wrapping. At desktop widths it stays a fixed size rather than
+   scaling down. The dateline sits just under it, faint and quiet.
+   ------------------------------------------------------------ */
+.articleTitle {
+    margin: 0 0 0.1em;
+}
+
+.articleTitle h1 {
+    font-size: 2.3rem;
+    line-height: 1.16;
+    font-weight: 700;
+    letter-spacing: -0.021em;
+    text-wrap: balance;
+    text-rendering: optimizeLegibility;
+    margin: 0;
+}
+
+.articleTitle h1 a,
+.articleTitle h1 a:hover {
+    color: var(--heading);
+    text-decoration: none;
+}
+
+.articleDateline,
+.articleDatelineTitle {
+    font-size: 0.82rem;
+    color: var(--faint);
+    margin-bottom: 2.75em;
+}
+
+.articleDateline a,
+.articleDatelineTitle a,
+.articleDateline a:hover,
+.articleDatelineTitle a:hover {
+    color: var(--faint);
+    text-decoration: none;
+}
+
+.externalLink {
+    font-size: 0.82rem;
+    color: var(--faint);
+    margin-bottom: 2.25em;
+    word-break: break-all;
+}
+
+.externalLink a {
+    text-decoration-color: var(--underline);
+}
+
+/* ------------------------------------------------------------
+   Article body. Inherits the body sans/measure; the size
+   classes below honor the reader's text-size preference.
+   ------------------------------------------------------------ */
+.articleBody {
+    margin-top: 0.5em;
+}
+
+.smallText  { font-size: 16px; }
+.mediumText { font-size: 18px; }
+.largeText  { font-size: 20px; }
+.xlargeText { font-size: 22px; }
+.xxlargeText{ font-size: 26px; }
+
+/* Prose headings: weight and tight tracking carry the hierarchy.
+   Extra space above sets each section off without a rule. */
+.articleBody h1,
+.articleBody h2,
+.articleBody h3,
+.articleBody h4,
+.articleBody h5,
+.articleBody h6 {
+    color: var(--heading);
+    line-height: 1.3;
+    font-weight: 700;
+    letter-spacing: -0.012em;
+    text-wrap: balance;
+    text-rendering: optimizeLegibility;
+    margin: 1.9em 0 0.5em;
+}
+
+.articleBody h1 { font-size: 1.5em; }
+.articleBody h2 { font-size: 1.28em; }
+.articleBody h3 { font-size: 1.1em; }
+.articleBody h4 { font-size: 1em; }
+.articleBody h5,
+.articleBody h6 {
+    font-size: 0.85em;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--secondary);
+}
+
+.articleBody p {
+    margin: 0 0 1.2em;
+    text-wrap: pretty;   /* avoid single-word last lines where supported */
+}
+
+.articleBody li {
+    margin-bottom: 0.45em;
+    text-wrap: pretty;
+}
+
+.articleBody ul,
+.articleBody ol {
+    padding-left: 1.3em;
+}
+
+/* Images scale down without distortion (explicit attrs preserved). */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Embedded media. Feeds embed YouTube and the like as <iframe>s with
+   fixed width/height attributes that overflow the column. Cap every
+   embed to the column, and give iframes a fluid 16:9 box so a video
+   fills the width and scales its height instead of spilling out. */
+iframe,
+video,
+embed,
+object {
+    max-width: 100%;
+}
+
+iframe {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+}
+
+figure {
+    margin: 2em 0;
+}
+
+figcaption {
+    font-size: 0.82rem;
+    color: var(--faint);
+    text-align: center;
+    margin-top: 0.5em;
+}
+
+/* Blockquotes: a quiet left bar and a muted tone — no fill,
+   no italics, just a gentle inset from the column. */
+blockquote {
+    margin: 1.8em 0;
+    padding: 0.1em 0 0.1em 1.3em;
+    border-left: 2px solid var(--quote-rule);
+    color: var(--quote-text);
+}
+
+blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+/* Code: neutral fill, system monospace stack. */
+code, pre, kbd, samp, tt {
+    font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+                 'Liberation Mono', 'Cascadia Code', 'Roboto Mono', monospace;
+}
+
+code {
+    background: var(--code-bg);
+    color: var(--code-text);
+    font-size: 0.85em;
+    padding: 0.12em 0.35em;
+    border-radius: 4px;
+}
+
+pre {
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 1em 1.1em;
+    border-radius: 6px;
+    overflow-x: auto;
+    line-height: 1.5;
+}
+
+pre code {
+    background: none;
+    padding: 0;
+    font-size: 0.85em;
+}
+
+/* The one place a rule earns its keep: a centered, faded divider
+   rather than a hard edge-to-edge line. */
+hr {
+    border: none;
+    height: auto;
+    text-align: center;
+    margin: 2.8em 0;
+    color: var(--faint);
+}
+
+hr::before {
+    content: "· · ·";
+    letter-spacing: 0.5em;
+    font-size: 0.9em;
+}
+
+/* Tables: hairline horizontal rules only — no vertical lines,
+   no fills. Scoped to the body so nothing else is affected. */
+.articleBody table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1.8em 0;
+    font-size: 0.92em;
+}
+
+.articleBody th,
+.articleBody td {
+    border-bottom: 1px solid var(--rule);
+    padding: 0.5em 0.7em 0.5em 0;
+    text-align: left;
+}
+
+.articleBody th {
+    color: var(--heading);
+    font-weight: 600;
+    border-bottom-color: var(--quote-rule);
+}
+
+/* ------------------------------------------------------------
+   System placeholder states.
+   NetNewsWire injects a bare <h3 class="systemMessage"> for
+   "No selection", "Loading…", and "Multiple selection". Pin it to
+   the true center of the pane (both axes) and quiet it down — the
+   faint tone and normal weight keep an empty selection calm rather
+   than shouting a heading. Fixed positioning centers against the
+   pane itself, ignoring the article column's width and padding.
+   ------------------------------------------------------------ */
+.systemMessage {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    text-align: center;
+    font-weight: 400;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    color: var(--faint);
+}
+
+/* ------------------------------------------------------------
+   Footnotes (newsfoot). The popover structure comes from the
+   app's core.css; this supplies the colors for both schemes.
+   ------------------------------------------------------------ */
+a.footnote {
+    background: var(--code-bg);
+    color: var(--secondary);
+    text-decoration: none;
+}
+
+a.footnote:hover {
+    color: var(--accent);
+}
+
+.newsfoot-footnote-popover {
+    background: var(--footnote-edge);
+}
+
+.newsfoot-footnote-popover-inner {
+    background: var(--footnote-bg);
+    color: var(--footnote-text);
+}
+
+.newsfoot-footnote-popover-arrow {
+    background: var(--footnote-bg);
+    border-color: var(--footnote-edge);
+}
