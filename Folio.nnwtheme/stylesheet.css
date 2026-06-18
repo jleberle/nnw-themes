@@ -239,7 +239,7 @@ a:active {
 .externalLink {
     font-size: 0.85rem;
     color: var(--secondary);
-    margin-bottom: 1.5em;
+    margin-top: 1.5em;
     word-break: break-all;
 }
 
