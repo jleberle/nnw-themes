@@ -13,19 +13,18 @@
    ============================================================ */
 
 /* ------------------------------------------------------------
-   Light theme (default). Soft off-white surface — a hair warmer
-   and dimmer than pure #fff to take the glare off long reads —
-   with near-black ink and a calm blue reserved for hover.
-   (Palette shared with Quiet, so the pair reads as one family.)
+   Light theme (default). Near-black ink and a calm blue reserved
+   for hover, on the app's own light surface — no custom
+   background is set. (Palette shared with Quiet, so the pair
+   reads as one family.)
    ------------------------------------------------------------ */
 :root {
-    --bg:            #fcfcfb;
     --text:          #1c1c1e;   /* body copy                        */
     --heading:       #000000;   /* titles + prose headings          */
-    --secondary:     #76757a;   /* feed name, byline, dateline      */
-    --faint:         #9a999e;   /* external link, captions          */
+    --secondary:     #6f6e73;   /* feed name, byline, dateline      */
+    --faint:         #9a999e;   /* dateline, decorative marks        */
     --accent:        #2f6fed;   /* hover only — never at rest       */
-    --underline:     #a3a29e;   /* link underline at rest           */
+    --underline:     #8f8e8b;   /* link underline at rest           */
     --rule:          #ececea;   /* the few dividers there are       */
     --quote-rule:    #dcdbd8;   /* blockquote bar                   */
     --quote-text:    #4a4a4d;
@@ -37,14 +36,13 @@
 }
 
 /* ------------------------------------------------------------
-   Dark theme — a true near-black surface with soft off-white
-   ink (never pure #fff, which glares). The same blue accent
+   Dark theme — soft off-white ink (never pure #fff, which
+   glares) on the app's own dark surface. The same blue accent
    lifts slightly for contrast against the dark.
    ------------------------------------------------------------ */
 @media (prefers-color-scheme: dark) {
     :root {
-        --bg:            #161618;
-        --text:          #dcdbd8;
+        --text:          #d2d1ce;   /* eases shimmer against the near-black */
         --heading:       #f6f5f2;
         --secondary:     #8d8c91;
         --faint:         #6f6e73;
@@ -59,15 +57,21 @@
         --footnote-edge: #343438;
         --footnote-text: #e8e7e4;
     }
+
+    /* Antialiased (non-subpixel) smoothing flatters light ink on a dark
+       page; scoped to dark mode so light-mode sans stays at full weight. */
+    body {
+        -webkit-font-smoothing: antialiased;
+    }
 }
 
 /* ------------------------------------------------------------
    Page surface + body type.
    System sans stack — SF on Apple platforms, Segoe/Roboto
-   elsewhere. Sized up for the desktop: 19px on a ~38em measure
-   keeps lines in the comfortable 70–80ch range with room to
-   breathe, and 1.7 line-height keeps a wide column easy to track.
-   Generous padding frames the column in the reading pane.
+   elsewhere. Sized up for the desktop: 19px on a ~35em measure
+   keeps lines in the comfortable 65–70ch range, and 1.7 line-height
+   keeps the column easy to track. The "roomy" feel comes from the
+   generous padding around the column, not from a wider line.
    ------------------------------------------------------------ */
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text',
@@ -75,11 +79,9 @@ body {
     font-size: 19px;
     line-height: 1.7;
     color: var(--text);
-    background: var(--bg);
-    max-width: 38em;
+    max-width: 35em;
     margin: 0 auto;
     padding: 3em 1.5em 6em;
-    -webkit-font-smoothing: antialiased;
     -webkit-text-size-adjust: none;
     word-break: break-word;
     overflow-wrap: break-word;
@@ -205,7 +207,7 @@ a:active {
 
 .externalLink {
     font-size: 0.82rem;
-    color: var(--faint);
+    color: var(--secondary);
     margin-top: 2.25em;
     word-break: break-all;
 }
@@ -292,6 +294,18 @@ object {
 iframe {
     width: 100%;
     height: auto;
+}
+
+/* Known video hosts get forced to the standard 16:9 box, since their
+   embed HTML often carries stale or inconsistent width/height attributes.
+   Other iframes (podcast players, forms, maps) keep their own declared
+   aspect ratio instead of being squashed into 16:9. */
+iframe[src*="youtube.com"],
+iframe[src*="youtube-nocookie.com"],
+iframe[src*="youtu.be"],
+iframe[src*="vimeo.com"],
+iframe[src*="dailymotion.com"],
+iframe[src*="wistia"] {
     aspect-ratio: 16 / 9;
 }
 
@@ -301,7 +315,7 @@ figure {
 
 figcaption {
     font-size: 0.82rem;
-    color: var(--faint);
+    color: var(--secondary);
     text-align: center;
     margin-top: 0.5em;
 }
@@ -340,6 +354,7 @@ pre {
     border-radius: 6px;
     overflow-x: auto;
     line-height: 1.5;
+    tab-size: 4;
 }
 
 pre code {

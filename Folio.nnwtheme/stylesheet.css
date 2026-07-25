@@ -3,7 +3,8 @@
    Modeled on jaredeberle.org: Georgia serif, tightened measure,
    balanced headings, high-readability body type. The Solarized
    palette of the site is intentionally dropped in favor of a
-   neutral paper-light / warm-dark reading surface.
+   neutral ink; the reading surface itself is left unset, so it
+   follows NetNewsWire's own light/dark background.
 
    Built for the small screen first — a fluid headline, safe-area
    aware margins, tap feedback on links, and soft hyphenation in
@@ -13,11 +14,11 @@
    ============================================================ */
 
 /* ------------------------------------------------------------
-   Light theme (default). Neutral white surface, near-black
-   serif text, a warm-red accent echoing the site's link accent.
+   Light theme (default). Near-black serif text and a warm-red
+   accent echoing the site's link accent, on the app's own white
+   surface — no custom background is set.
    ------------------------------------------------------------ */
 :root {
-    --bg:               #ffffff;
     --text:             #232323;   /* body copy                       */
     --heading:          #111111;   /* titles + h1..h6                 */
     --secondary:        #6b6b6b;   /* byline, dateline, captions      */
@@ -34,14 +35,13 @@
 }
 
 /* ------------------------------------------------------------
-   Dark theme — neutral charcoal surface (no Solarized teal),
-   warm off-white text for a paper-like feel, cyan accent to
-   mirror the site's dark-mode accent shift.
+   Dark theme — warm off-white text (no Solarized teal) for a
+   paper-like feel, cyan accent to mirror the site's dark-mode
+   accent shift. The app's own dark surface shows through.
    ------------------------------------------------------------ */
 @media (prefers-color-scheme: dark) {
     :root {
-        --bg:               #1b1b1d;
-        --text:             #d8d4cd;
+        --text:             #cec9c2;   /* eases serif shimmer on near-black   */
         --heading:          #f2efe9;
         --secondary:        #8d8a84;
         --accent:           #5ec8bd;
@@ -54,6 +54,13 @@
         --footnote-border:  #444444;
         --footnote-bg:      #242424;
         --footnote-text:    #e0e0e0;
+    }
+
+    /* Antialiased (non-subpixel) smoothing flatters light ink on a dark
+       page; in light mode it thins this serif too much on white, so it
+       stays scoped to dark mode only. */
+    body {
+        -webkit-font-smoothing: antialiased;
     }
 }
 
@@ -74,13 +81,11 @@ body {
     font-size: 18px;
     line-height: 1.7;
     color: var(--text);
-    background: var(--bg);
     max-width: 40em;
     margin: 0 auto;
     padding: 1.5em 1.25em 4em;
     padding-left: max(1.25em, env(safe-area-inset-left));
     padding-right: max(1.25em, env(safe-area-inset-right));
-    -webkit-font-smoothing: antialiased;
     -webkit-text-size-adjust: none;
     word-break: break-word;
     overflow-wrap: break-word;
@@ -319,6 +324,18 @@ object {
 iframe {
     width: 100%;
     height: auto;
+}
+
+/* Known video hosts get forced to the standard 16:9 box, since their
+   embed HTML often carries stale or inconsistent width/height attributes.
+   Other iframes (podcast players, forms, maps) keep their own declared
+   aspect ratio instead of being squashed into 16:9. */
+iframe[src*="youtube.com"],
+iframe[src*="youtube-nocookie.com"],
+iframe[src*="youtu.be"],
+iframe[src*="vimeo.com"],
+iframe[src*="dailymotion.com"],
+iframe[src*="wistia"] {
     aspect-ratio: 16 / 9;
 }
 
@@ -366,6 +383,7 @@ pre {
     border-radius: 6px;
     overflow-x: auto;
     line-height: 1.5;
+    tab-size: 4;
 }
 
 pre code {

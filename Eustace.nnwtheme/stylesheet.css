@@ -19,11 +19,12 @@
    ============================================================ */
 
 /* ------------------------------------------------------------
-   Light theme (default). Bright white page, near-black ink,
-   the New Yorker scarlet for rubric and links.
+   Light theme (default). Near-black ink and the New Yorker
+   scarlet for rubric and links, on the app's own white page —
+   no custom background, so the reading pane matches NetNewsWire's
+   standard light surface exactly.
    ------------------------------------------------------------ */
 :root {
-    --bg:             #ffffff;
     --text:           #181818;   /* body copy                        */
     --heading:        #0d0d0d;   /* headline + prose headings        */
     --secondary:      #5f5f5f;   /* byline, dateline, captions       */
@@ -41,15 +42,14 @@
 }
 
 /* ------------------------------------------------------------
-   Dark theme — a warm near-black page with off-white ink (never
-   pure white, which glares against a dark serif). The accent drops
-   the red here and takes Folio's cool cyan, which reads more calmly
-   than a hot red against the dark.
+   Dark theme — off-white ink (never pure white, which glares
+   against a dark serif) on the app's own dark page. The accent
+   drops the red here and takes Folio's cool cyan, which reads
+   more calmly than a hot red against the dark.
    ------------------------------------------------------------ */
 @media (prefers-color-scheme: dark) {
     :root {
-        --bg:             #151311;
-        --text:           #ddd8cf;
+        --text:           #d3cec5;   /* eases serif shimmer on near-black   */
         --heading:        #f6f2ea;
         --secondary:      #9a948a;
         --accent:         #5ec8bd;   /* Folio's dark cyan accent     */
@@ -63,6 +63,13 @@
         --footnote-edge:  #3a3631;
         --footnote-bg:    #1e1b18;
         --footnote-text:  #e9e4db;
+    }
+
+    /* Antialiased (non-subpixel) smoothing flatters light ink on a dark
+       page; in light mode it thins this serif too much on white, so it
+       stays scoped to dark mode only. */
+    body {
+        -webkit-font-smoothing: antialiased;
     }
 }
 
@@ -80,12 +87,10 @@ body {
     font-size: 19px;
     line-height: 1.62;
     color: var(--text);
-    background: var(--bg);
     max-width: 38em;
     margin: 0 auto;
     padding: 2.25em 1.25em 5em;
     font-variant-numeric: oldstyle-nums;
-    -webkit-font-smoothing: antialiased;
     -webkit-text-size-adjust: none;
     word-break: break-word;
     overflow-wrap: break-word;
@@ -274,14 +279,21 @@ article {
     color: var(--secondary);
 }
 
+/* Soft hyphenation evens out the rag at the ~38em measure and keeps long
+   words from forcing wide gaps. Only engages when the feed declares a
+   language WebKit can hyphenate; otherwise it's a no-op. */
 .articleBody p {
     margin: 0 0 1.1em;
     text-wrap: pretty;   /* avoid single-word last lines where supported */
+    -webkit-hyphens: auto;
+    hyphens: auto;
 }
 
 .articleBody li {
     margin-bottom: 0.4em;
     text-wrap: pretty;
+    -webkit-hyphens: auto;
+    hyphens: auto;
 }
 
 .articleBody ul,
@@ -309,6 +321,18 @@ object {
 iframe {
     width: 100%;
     height: auto;
+}
+
+/* Known video hosts get forced to the standard 16:9 box, since their
+   embed HTML often carries stale or inconsistent width/height attributes.
+   Other iframes (podcast players, forms, maps) keep their own declared
+   aspect ratio instead of being squashed into 16:9. */
+iframe[src*="youtube.com"],
+iframe[src*="youtube-nocookie.com"],
+iframe[src*="youtu.be"],
+iframe[src*="vimeo.com"],
+iframe[src*="dailymotion.com"],
+iframe[src*="wistia"] {
     aspect-ratio: 16 / 9;
 }
 
@@ -324,13 +348,20 @@ figcaption {
     margin-top: 0.5em;
 }
 
-/* Blockquotes: a quiet gray bar (Folio's) and a muted, italic tone —
-   the pull-quote treatment without the fill. */
+/* Blockquotes: a quiet gray bar (Folio's) and a muted tone. Italic is
+   reserved for the single-paragraph case — a short pull quote reads well
+   in the magazine's italic, but a longer excerpted passage set entirely
+   in italic old-style serif slows down over several lines, so a
+   multi-paragraph quote stays upright. */
 blockquote {
     margin: 1.5em 0;
     padding: 0.1em 0 0.1em 1.2em;
     border-left: 2px solid var(--quote-rule);
     color: var(--quote-text);
+    font-style: normal;
+}
+
+blockquote > p:only-child {
     font-style: italic;
 }
 
@@ -359,6 +390,7 @@ pre {
     border-radius: 6px;
     overflow-x: auto;
     line-height: 1.5;
+    tab-size: 4;
 }
 
 pre code {
