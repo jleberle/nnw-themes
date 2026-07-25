@@ -16,9 +16,12 @@
 /* ------------------------------------------------------------
    Light theme (default). Near-black serif text and a warm-red
    accent echoing the site's link accent, on the app's own white
-   surface — no custom background is set.
+   surface — no custom background is set. color-scheme declares
+   both modes are supported so WebKit's native chrome (scrollbars,
+   selection) matches the active one immediately.
    ------------------------------------------------------------ */
 :root {
+    color-scheme:       light dark;
     --text:             #232323;   /* body copy                       */
     --heading:          #111111;   /* titles + h1..h6                 */
     --secondary:        #6b6b6b;   /* byline, dateline, captions      */
@@ -115,6 +118,13 @@ a:hover {
 a:active {
     color: var(--accent-hover);
     text-underline-offset: 0.2em;
+}
+
+/* Keyboard/VoiceOver focus gets a ring in the theme's own accent
+   instead of the generic system-blue default. */
+a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
 }
 
 /* ------------------------------------------------------------

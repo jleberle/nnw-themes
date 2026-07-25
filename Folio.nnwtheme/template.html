@@ -30,6 +30,23 @@ body: The body of the article.
 
 -->
 
+<!-- Collapse any image that fails to load (e.g. an ad/tracker pixel
+     blocked by a DNS filter) instead of leaving the browser's broken-
+     image glyph and reserved space behind. Registered via capture
+     since 'error' events on <img> don't bubble; this only fires on a
+     genuine load failure, so it never touches an image that renders. -->
+<script>
+(function () {
+    document.addEventListener('error', function (e) {
+        var el = e.target;
+        if (el && el.tagName === 'IMG') {
+            var figure = el.closest('figure');
+            (figure || el).style.display = 'none';
+        }
+    }, true);
+})();
+</script>
+
 <header class="headerContainer">
 	<table cellpadding=0 cellspacing=0 border=0 class="headerTable">
 	<tr>

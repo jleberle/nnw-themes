@@ -16,9 +16,12 @@
    Light theme (default). Near-black ink and a calm blue reserved
    for hover, on the app's own light surface — no custom
    background is set. (Palette shared with Quiet, so the pair
-   reads as one family.)
+   reads as one family.) color-scheme declares both modes are
+   supported so WebKit's native chrome (scrollbars, selection)
+   matches the active one immediately.
    ------------------------------------------------------------ */
 :root {
+    color-scheme:    light dark;
     --text:          #1c1c1e;   /* body copy                        */
     --heading:       #000000;   /* titles + prose headings          */
     --secondary:     #6f6e73;   /* feed name, byline, dateline      */
@@ -111,6 +114,21 @@ a:hover {
 a:active {
     color: var(--accent);
     text-decoration-color: var(--accent);
+}
+
+/* Keyboard/VoiceOver focus gets a ring in the theme's own accent
+   instead of the generic system-blue default. */
+a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Respect the system Reduce Motion setting by dropping the hover/tap
+   color transition — the state change still happens instantly. */
+@media (prefers-reduced-motion: reduce) {
+    a {
+        transition: none;
+    }
 }
 
 /* ------------------------------------------------------------
