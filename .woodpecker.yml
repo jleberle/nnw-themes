@@ -1,0 +1,19 @@
+# Verify the committed install zips in dist/ match the theme sources —
+# i.e. that ./build.sh was run and its output committed after any theme
+# edit. The check is content-level (extract and diff) rather than a
+# byte-compare of the zips, so it can't false-positive on zip metadata
+# differences between platforms. diff -r in both directions catches
+# stale content, missing or orphaned zips, and stray files in a zip.
+
+when:
+  - event: [push, pull_request]
+
+steps:
+  - name: dist-in-sync
+    image: alpine:3.22
+    commands:
+      - apk add --no-cache diffutils unzip
+      - mkdir /tmp/src /tmp/zips
+      - cp -R *.nnwtheme /tmp/src/
+      - for z in dist/*.zip; do unzip -q "$z" -d /tmp/zips; done
+      - diff -r /tmp/src /tmp/zips
