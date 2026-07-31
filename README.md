@@ -1,5 +1,7 @@
 # NetNewsWire themes
 
+[![License: MIT-0](https://img.shields.io/badge/License-MIT--0-blue.svg)](LICENSE)
+
 Four reading themes for [NetNewsWire](https://netnewswire.com), all built for comfortable, distraction-free reading. They pair off by typeface and screen:
 
 |         | Phone-first | Desktop-first |
