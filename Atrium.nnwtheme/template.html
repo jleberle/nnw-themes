@@ -30,22 +30,51 @@ body: The body of the article.
 
 -->
 
-<!-- Collapse any image that fails to load (e.g. an ad/tracker pixel
-     blocked by a DNS filter) instead of leaving the browser's broken-
-     image glyph and reserved space behind. Registered via capture
-     since 'error' events on <img> don't bubble; this only fires on a
-     genuine load failure, so it never touches an image that renders. -->
 <script>
 (function () {
+    // Collapse any image that fails to load (e.g. an ad/tracker pixel blocked
+    // by a DNS filter) instead of leaving the browser's broken-image glyph and
+    // reserved space behind. Registered via capture since 'error' events on
+    // <img> don't bubble; this only fires on a genuine load failure, so it
+    // never touches an image that renders.
     document.addEventListener('error', function (e) {
         var el = e.target;
-        if (el && el.tagName === 'IMG') {
-            var figure = el.closest('figure');
-            (figure || el).style.display = 'none';
+        if (!el || el.tagName !== 'IMG') {
+            return;
+        }
+        // Hide the whole figure only when this image was its only picture, so
+        // a multi-image figure keeps the ones that did load.
+        var figure = el.closest('figure');
+        if (figure && figure.querySelectorAll('img').length === 1) {
+            figure.style.display = 'none';
+        } else {
+            el.style.display = 'none';
         }
     }, true);
+
+    // NetNewsWire substitutes an empty string for any link it doesn't have —
+    // an article whose external link matches its preferred link (the common
+    // case), or a feed with no home page — which leaves <a href="">: an
+    // unlabeled, focusable link that reloads the article when activated.
+    // Unwrap those back to plain text, then drop the external-link row
+    // entirely if that left it with nothing to say.
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('a[href=""]').forEach(function (a) {
+            a.replaceWith.apply(a, Array.prototype.slice.call(a.childNodes));
+        });
+        var external = document.querySelector('.externalLink');
+        if (external && !external.textContent.trim()) {
+            external.style.display = 'none';
+        }
+    });
 })();
 </script>
+
+<!-- These themes show the feed name as type rather than as an icon, but the
+     app's reloadArticleImage() dereferences #nnwImageIcon unguarded when a
+     feed icon arrives after render. Keep the element (hidden) so that call
+     doesn't throw. -->
+<img id="nnwImageIcon" class="nnw-nozoom" hidden alt="" src="[[avatar_src]]">
 
 <header class="headerContainer">
 	<div class="feedMeta">

@@ -19,15 +19,22 @@ mkdir -p dist
 export TZ=UTC
 stamp=202601010000
 
+tmp=
+trap 'rm -rf "$tmp"' EXIT
+
 for theme in *.nnwtheme; do
 	name="${theme%.nnwtheme}"
 	dest="$PWD/dist/${name}.zip"
+	rm -rf "$tmp"
 	tmp=$(mktemp -d)
 	cp -R "$theme" "$tmp/"
 	find "$tmp/$theme" -name .DS_Store -delete
+	# zip -X drops the uid/gid extra fields but still records the Unix mode,
+	# so normalize permissions too or a stray +x makes the archive differ.
+	# 'X' sets the execute bit on directories only, keeping them traversable.
+	chmod -R a=rX,u+w "$tmp/$theme"
 	find "$tmp/$theme" -exec touch -t "$stamp" {} +
 	rm -f "$dest"
 	(cd "$tmp" && find "$theme" -type f | LC_ALL=C sort | zip -X -q "$dest" -@)
-	rm -rf "$tmp"
 	echo "built dist/${name}.zip"
 done

@@ -68,6 +68,25 @@
 }
 
 /* ------------------------------------------------------------
+   Increase Contrast (System Settings › Accessibility › Display).
+   The muted tones collapse onto the full ink color and links get
+   a firmer underline, so nothing on the page is carried by a
+   low-contrast gray. Must follow the dark block, since it
+   overrides the same custom properties; var(--text) resolves
+   against whichever scheme is active.
+   ------------------------------------------------------------ */
+@media (prefers-contrast: more) {
+    :root {
+        --secondary:  var(--text);
+        --quote-text: var(--text);
+    }
+
+    a {
+        text-decoration-thickness: 2px;
+    }
+}
+
+/* ------------------------------------------------------------
    Page surface + body type.
    Georgia stack, 1.7 line-height, and a ~40em measure centered
    in the pane keep lines in the comfortable 60–75 character
@@ -89,8 +108,8 @@ body {
     padding: 1.5em 1.25em 4em;
     padding-left: max(1.25em, env(safe-area-inset-left));
     padding-right: max(1.25em, env(safe-area-inset-right));
-    -webkit-text-size-adjust: none;
-    word-break: break-word;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
     overflow-wrap: break-word;
 }
 
@@ -230,7 +249,7 @@ a:focus-visible {
     font-size: 0.85rem;
     color: var(--secondary);
     margin-top: 1.5em;
-    word-break: break-all;
+    overflow-wrap: anywhere;
 }
 
 /* ------------------------------------------------------------
@@ -298,11 +317,16 @@ img {
 /* Embedded media. Feeds embed YouTube and the like as <iframe>s with
    fixed width/height attributes, which overflow a narrow phone column.
    Cap every embed to the column, and give iframes a fluid 16:9 box so a
-   video fills the width and scales its height instead of spilling out. */
+   video fills the width and scales its height instead of spilling out.
+   The app strips a feed's inline max-width but not its width, so any
+   element a feed can size explicitly is capped here too. */
 iframe,
 video,
 embed,
-object {
+object,
+svg,
+figure,
+.articleBody div {
     max-width: 100%;
 }
 
@@ -324,12 +348,42 @@ iframe[src*="wistia"] {
     aspect-ratio: 16 / 9;
 }
 
+/* ------------------------------------------------------------
+   Wrappers the app's main.js injects at render time. Their rules
+   live in NetNewsWire's DEFAULT stylesheet, which a custom theme
+   replaces outright — so a theme has to restate them or lose the
+   behavior. Without .nnw-overflow a wide table scrolls the whole
+   pane sideways; without .iframeWrap an embed that carries no
+   height attribute collapses to the 150px iframe default.
+   ------------------------------------------------------------ */
+.nnw-overflow {
+    overflow-x: auto;
+}
+
+.iframeWrap {
+    aspect-ratio: 16 / 9;
+}
+
+.iframeWrap > iframe {
+    width: 100%;
+    height: 100%;
+}
+
+/* Tagged by the app on iframes whose height is a percentage of the
+   document body, which would otherwise run the length of the page. */
+iframe.nnw-constrained {
+    max-height: 50vw;
+}
+
 figure {
     margin: 1.5em 0;
 }
 
+/* em, not rem: the caption sits inside .articleBody, whose size the
+   reader controls through the text-size preference, and should scale
+   with the prose rather than stay pinned to the 16px root. */
 figcaption {
-    font-size: 0.85rem;
+    font-size: 0.85em;
     color: var(--secondary);
     text-align: center;
     margin-top: 0.4em;
@@ -447,4 +501,69 @@ a.footnote {
 
 .newsfoot-footnote-popover-arrow {
     background: var(--footnote-border);
+}
+
+/* ------------------------------------------------------------
+   Print (File › Print on the Mac). Screen ink is tuned for a
+   backlit panel; on paper it goes flat black on white, gives up
+   the centered measure for the page's own margins, and stops
+   blocks from being split across a page break. Link targets are
+   spelled out, since a printed underline points nowhere.
+   ------------------------------------------------------------ */
+@media print {
+    :root {
+        --text:       #000000;
+        --heading:    #000000;
+        --secondary:  #3c3c3c;
+        --accent:     #000000;
+        --quote-rule: #999999;
+        --quote-text: #1a1a1a;
+        --rule:       #bbbbbb;
+        --code-bg:    transparent;
+        --code-text:  #000000;
+    }
+
+    body {
+        max-width: none;
+        padding: 0;
+        font-size: 11pt;
+        line-height: 1.5;
+        color: #000;
+        background: #fff;
+    }
+
+    a {
+        color: inherit;
+    }
+
+    .articleBody a[href^="http"]::after {
+        content: " <" attr(href) ">";
+        font-size: 0.85em;
+        overflow-wrap: anywhere;
+    }
+
+    pre {
+        border: 1px solid var(--rule);
+        white-space: pre-wrap;
+    }
+
+    blockquote,
+    figure,
+    pre,
+    table {
+        break-inside: avoid;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        break-after: avoid;
+    }
+
+    img {
+        max-height: 60vh;
+    }
+
+    /* Only ever on screen — an empty pane has nothing to print. */
+    .systemMessage {
+        display: none;
+    }
 }
