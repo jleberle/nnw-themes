@@ -65,8 +65,7 @@ layers in NetNewsWire's own `core.css` from the installed app when it can find
 it — so it is close to, but not a substitute for, checking the result in
 NetNewsWire itself.
 
-CI ([GitHub Actions](.github/workflows/ci.yml), mirrored in
-[`.woodpecker.yml`](.woodpecker.yml) for Codeberg) checks that the committed
+CI ([GitHub Actions](.github/workflows/ci.yml)) checks that the committed
 zips in `dist/` match the theme sources, so a forgotten rebuild fails the
 pipeline. It also lints `build.sh`, validates each `Info.plist`, and asserts
 that Folio, Quiet, and Atrium keep byte-identical `template.html` files, since

@@ -1,4 +1,3 @@
-# Same checks as .woodpecker.yml, for the GitHub remote. Keep the two in sync.
 name: CI
 
 on:
@@ -12,7 +11,7 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # Verify the committed install zips in dist/ match the theme sources —
       # i.e. that ./build.sh was run and its output committed after any theme
