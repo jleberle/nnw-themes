@@ -3,6 +3,40 @@
 Versions here are the `Version` integer in each theme's `Info.plist`; all four
 themes are versioned together.
 
+## 4 — 2026-09-24
+
+Text-size and footnote fixes across all four themes.
+
+### Fixed
+
+- **The two largest text sizes on macOS were smaller than "Large".**
+  NetNewsWire writes the size classes as `xLargeText` and `xxLargeText` with a
+  capital L. The themes only matched the lowercase spellings that the app's
+  bundled themes use, so those two settings fell back to the fixed body size.
+  In Atrium, Extra Large rendered at 19px against Large's 20px. Both spellings
+  now match.
+- **On iPhone and iPad, the themes ignored the reader's Dynamic Type size.**
+  iOS doesn't use the size classes; it fills in a `[[font-size]]` placeholder
+  in the stylesheet, which none of the themes had. The body text and the
+  rem-sized masthead now scale with that setting. At the default size they
+  render exactly as before.
+- **Footnote markers could wrap onto a line by themselves.** NetNewsWire's
+  `core.css` makes a marker `inline-block`, which lets the line break just
+  before it. The template script now keeps each marker in a no-wrap span with
+  the end of the word it's attached to.
+- **Empty links with Article JavaScript off.** The template script that
+  unwraps `<a href="">` doesn't run when the reader has turned off Article
+  JavaScript. The stylesheet now disables those links and hides the empty
+  external-link row, as a fallback.
+
+### Added
+
+- `check.sh` runs each theme through the community
+  [`nnw-theme`](https://github.com/dave-atx/nnw-theme) checks. They render
+  with NetNewsWire's own `core.css` and scripts in WebKit on Mac, iPhone, and
+  iPad. `fixtures/edge-cases.toml` covers footnote markers and an empty
+  external link.
+
 ## 3 — 2026-08-16
 
 Correctness and accessibility pass across all four themes.

@@ -65,15 +65,30 @@ layers in NetNewsWire's own `core.css` from the installed app when it can find
 it — so it is close to, but not a substitute for, checking the result in
 NetNewsWire itself.
 
+For the real renderer, check the themes with
+[`nnw-theme`](https://github.com/dave-atx/nnw-theme), a community tool that
+renders with NetNewsWire's own `core.css` and scripts in WebKit on Mac, iPhone,
+and iPad, light and dark, at large text sizes and with Article JavaScript off:
+
+```
+npx nnw-theme@1 setup   # once per machine: installs WebKit
+./check.sh              # or ./check.sh Folio
+```
+
+It needs Node 24 or newer. Each theme's gallery lands in
+`preview/check/<Theme>/index.html`. Besides the tool's built-in articles it
+renders [`fixtures/edge-cases.toml`](fixtures/edge-cases.toml), which covers
+footnote markers and an empty external link.
+
 CI ([GitHub Actions](.github/workflows/ci.yml)) checks that the committed
 zips in `dist/` match the theme sources, so a forgotten rebuild fails the
-pipeline. It also lints `build.sh`, validates each `Info.plist`, and asserts
+pipeline. It also lints the shell scripts, validates each `Info.plist`, and asserts
 that Folio, Quiet, and Atrium keep byte-identical `template.html` files, since
 the shared image/link-repair script is copied across all four themes.
 
 ### Notes for theme authors
 
-Two things about NetNewsWire's renderer are easy to get wrong, and all four
+A few things about NetNewsWire's renderer are easy to get wrong, and all four
 themes here depend on them:
 
 - A theme's `stylesheet.css` **replaces** the app's default stylesheet rather
@@ -86,4 +101,18 @@ themes here depend on them:
 - Every `[[…]]` link substitution can be an empty string (an article whose
   external link matches its preferred link, a feed with no home page), which
   leaves `<a href="">`: an unlabeled, focusable link that reloads the article.
-  The script in `template.html` unwraps those.
+  The script in `template.html` unwraps those. If the reader has turned off
+  Article JavaScript, that script never runs, so the stylesheet also disables
+  empty links and hides the external-link row they leave empty.
+- Text size works differently on each platform. On macOS the app puts a size
+  class on the article body, and for the two largest settings it writes
+  `xLargeText` and `xxLargeText` with a capital L, while the app's bundled
+  themes select the lowercase spellings. Define both, or those settings fall
+  back to a smaller size. On iOS and iPadOS the app sets no size class at all.
+  It fills in the reader's Dynamic Type size wherever `[[font-size]]` appears in
+  the stylesheet (17 at the default setting). These themes scale from that with
+  `calc()`. On macOS the placeholder is left unfilled, so the declaration is
+  invalid and the fixed size before it wins.
+- NetNewsWire's `core.css` makes footnote markers `inline-block`, so a marker
+  can wrap onto a line by itself. The template script puts each marker and the
+  end of its word in a no-wrap span.

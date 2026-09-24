@@ -42,5 +42,5 @@ jobs:
             diff "Quiet.nnwtheme/template.html" "$t.nnwtheme/template.html"
           done
 
-      - name: shellcheck build.sh
-        run: shellcheck build.sh preview.sh
+      - name: shellcheck the scripts
+        run: shellcheck build.sh preview.sh check.sh

@@ -1,0 +1,42 @@
+# Cases these themes handle specially, checked by ./check.sh on macOS and
+# iPhone in light and dark alongside nnw-theme's built-in fixtures.
+#
+# external_link is empty, as the app leaves it whenever the external link
+# matches the preferred link (the common case): the template script
+# unwraps that empty link and hides the row, and with Article JavaScript
+# off the stylesheet does the hiding instead. The footnote markers sit
+# against their words, which the template script keeps on one line.
+
+title = "Footnotes Written Against Their Words, and an Empty External Link"
+preferred_link = "https://example.org/edge-cases"
+external_link = ""
+external_link_label = ""
+external_link_stripped = ""
+feed_link = "https://example.org/"
+feed_link_title = "Edge Case Quarterly"
+byline = "Ada Lovelace"
+dateline_style = "articleDateline"
+datetime_long = "2026-09-24T09:41:00-05:00"
+datetime_medium = "Sep 24, 2026 at 9:41 AM"
+date_medium = "Sep 24, 2026"
+avatar_src = ""
+body = '''
+<p>Markers written directly against a word should never wrap onto the next line by themselves, even when the word that carries them lands at the very end of a line in a narrow column like this one.<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> A second paragraph repeats the case with punctuation before the marker, which is how most feeds write it.<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup></p>
+
+<p>An unusually long word carries the third marker: counterrevolutionaries<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup> and the sentence carries on past it. This paragraph also links to <sup><a id="plain" href="https://example.org/elsewhere">an ordinary superscript link</a></sup>, which is not a footnote and must stay a plain link.</p>
+
+<div class="footnotes"><ol>
+<li id="fn:1"><p>The first note. <a href="#fnref:1" class="reversefootnote">↩</a></p></li>
+<li id="fn:2"><p>The second note. <a href="#fnref:2" class="reversefootnote">↩</a></p></li>
+<li id="fn:3"><p>The third note. <a href="#fnref:3" class="reversefootnote">↩</a></p></li>
+</ol></div>
+'''
+
+[expect.footnotes]
+plain_links = ["#plain"]
+keep_with_word = true
+
+[expect.footnotes.notes]
+"1" = "The first note. ↩"
+"2" = "The second note. ↩"
+"3" = "The third note. ↩"

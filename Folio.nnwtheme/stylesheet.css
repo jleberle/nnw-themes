@@ -87,6 +87,24 @@
 }
 
 /* ------------------------------------------------------------
+   iOS / iPadOS text size. There the app never sets the size
+   classes further down; instead it fills in the reader's
+   Dynamic Type body size (17 at the default setting) wherever
+   the font-size macro appears in this stylesheet. Scaling from
+   17 keeps the default rendering unchanged and follows the
+   reader's setting up or down; the root size carries the
+   rem-sized masthead along with the body.
+
+   On macOS the macro is left unfilled, so each calc() is
+   invalid, the declaration is dropped, and the fixed size
+   before it stands. Don't write the macro itself in a comment:
+   the app substitutes inside comments too.
+   ------------------------------------------------------------ */
+html {
+    font-size: calc([[font-size]]px * 16 / 17);
+}
+
+/* ------------------------------------------------------------
    Page surface + body type.
    Georgia stack, 1.7 line-height, and a ~40em measure centered
    in the pane keep lines in the comfortable 60–75 character
@@ -101,6 +119,7 @@
 body {
     font-family: Georgia, Cambria, 'Times New Roman', Times, serif;
     font-size: 18px;
+    font-size: calc([[font-size]]px * 18 / 17);   /* iOS: see above */
     line-height: 1.7;
     color: var(--text);
     max-width: 40em;
@@ -263,8 +282,13 @@ a:focus-visible {
 .smallText  { font-size: 15px; }
 .mediumText { font-size: 17px; }
 .largeText  { font-size: 19px; }
-.xlargeText { font-size: 21px; }
-.xxlargeText{ font-size: 24px; }
+/* The app emits xLargeText / xxLargeText (capital L); NetNewsWire's
+   bundled themes select the lowercase spellings. Match both, or the
+   two largest settings fall back to the smaller body size. */
+.xlargeText,
+.xLargeText  { font-size: 21px; }
+.xxlargeText,
+.xxLargeText { font-size: 24px; }
 
 /* Prose headings: tighter, balanced, lightly tracked. */
 .articleBody h1,
@@ -478,6 +502,22 @@ hr {
     font-size: 1rem;
     letter-spacing: 0;
     color: var(--secondary);
+}
+
+/* ------------------------------------------------------------
+   Empty links with Article JavaScript off. The template script
+   unwraps the <a href=""> the app leaves for a link it doesn't
+   have; when the reader has turned article JavaScript off that
+   script never runs, so at least stop those links reloading the
+   article and hide the external-link row they leave empty.
+   ------------------------------------------------------------ */
+a[href=""] {
+    pointer-events: none;
+    cursor: text;
+}
+
+.externalLink:has(a[href=""]) {
+    display: none;
 }
 
 /* ------------------------------------------------------------

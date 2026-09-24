@@ -66,6 +66,34 @@ body: The body of the article.
         if (external && !external.textContent.trim()) {
             external.style.display = 'none';
         }
+
+        // The app's core.css makes a footnote marker inline-block, which
+        // gives the line a break opportunity just before it, so "word¹" can
+        // wrap with the marker orphaned at the start of the next line. Glue
+        // each marker written against its word into a no-wrap span with the
+        // end of that word. Matches the links main.js turns into footnotes
+        // (sup > a with an #fn… hash), by selector rather than by the class
+        // it adds, so this doesn't depend on which DOMContentLoaded
+        // listener runs first.
+        document.querySelectorAll(
+            '.articleBody sup > a[href*="#fn"], .articleBody sup > div > a[href*="#fn"], .articleBody a.footnote'
+        ).forEach(function (a) {
+            var marker = a.closest('sup') || a;
+            var before = marker.previousSibling;
+            if (!before || before.nodeType !== Node.TEXT_NODE) {
+                return;
+            }
+            var word = before.data.match(/\S+$/);
+            if (!word) {
+                return;   // a space before the marker: nothing to hold together
+            }
+            var tail = before.splitText(word.index);
+            var glue = document.createElement('span');
+            glue.style.whiteSpace = 'nowrap';
+            marker.parentNode.insertBefore(glue, marker);
+            glue.appendChild(tail);
+            glue.appendChild(marker);
+        });
     });
 })();
 </script>
