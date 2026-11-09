@@ -3,6 +3,32 @@
 Versions here are the `Version` integer in each theme's `Info.plist`; all four
 themes are versioned together.
 
+## 5 — 2026-11-09
+
+Support for the media tags in NetNewsWire 7.3.
+
+### Added
+
+- **Podcast players, videos, and lead images from a feed's enclosures.**
+  NetNewsWire 7.3 adds two template tags: `[[primary_media]]`, the article's
+  main video, audio, or image, and `[[enclosures]]`, the rest of the attached
+  media. Each theme now has a `template7.3.html` that puts the primary media
+  between the dateline and the body and the other enclosures after the body.
+  Without it, 7.3 would add the enclosures after everything else, below the
+  external link. NetNewsWire 7.2 and earlier ignore the new file and keep using
+  `template.html`, which hasn't changed.
+- Media captions are set like figure captions in each theme, and follow the
+  text-size setting on macOS.
+- A lead image or image enclosure that fails to load collapses along with its
+  caption, the same way a broken figure in the body does.
+- When printing, audio players are hidden, and media isn't split across pages.
+
+### Changed
+
+- `preview.sh` renders `template7.3.html`, with a sample lead image and podcast
+  enclosure. `check.sh` still checks `template.html`, because `nnw-theme`
+  doesn't support the 7.3 template yet.
+
 ## 4 — 2026-09-24
 
 Text-size and footnote fixes across all four themes.

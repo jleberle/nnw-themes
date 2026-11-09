@@ -6,7 +6,8 @@
 #   ./preview.sh Folio      # just one
 #
 # Output goes to preview/<Theme>.html (gitignored). The page is built from
-# the theme's real template.html and stylesheet.css with the same [[…]]
+# the theme's real template7.3.html (or template.html, for a theme without
+# one) and stylesheet.css with the same [[…]]
 # substitutions NetNewsWire makes, so what you see is what the theme does —
 # with two caveats. The app also injects core.css and main.js, which do a
 # fair amount of work on feed markup (wrapping tables in .nnw-overflow and
@@ -76,15 +77,33 @@ render() {
 	local out="$outdir/$theme.html"
 	[ -d "$dir" ] || { echo "no such theme: $theme" >&2; return 1; }
 
+	# NetNewsWire 7.3+ prefers template7.3.html, as here.
+	local template="$dir/template7.3.html"
+	[ -f "$template" ] || template="$dir/template.html"
+
 	# Same substitutions ArticleRenderer makes. external_link is deliberately
 	# empty, which is the common case and the one that used to leave a stray
-	# focusable <a href=""> behind.
+	# focusable <a href=""> behind. The media markup copies what the app
+	# generates for an article image and an audio enclosure; the image is
+	# broken on purpose, so it should collapse along with its caption.
 	BODY="$body" THEME="$theme" CORE="$core_css" \
-		python3 - "$dir/template.html" "$dir/stylesheet.css" <<-'PY' > "$out"
+		python3 - "$template" "$dir/stylesheet.css" <<-'PY' > "$out"
 		import os, sys
 		template = open(sys.argv[1]).read()
 		stylesheet = open(sys.argv[2]).read()
 		theme = os.environ["THEME"]
+		primary_media = (
+		    '<div class="nnw-primary-media"><div class="nnw-primary-image">'
+		    '<img src="https://example.invalid/lead.jpg" alt="A lead image" title="A lead image" width="1600" height="900">'
+		    '<div class="nnw-primary-image-caption">A lead image</div></div></div>'
+		)
+		enclosures = (
+		    '<div class="nnw-enclosures">\n'
+		    '<div class="nnw-enclosure nnw-enclosure-audio">'
+		    '<audio controls preload="none" src="https://example.com/episode-12.mp3"></audio>'
+		    '<div class="nnw-enclosure-caption">Episode 12 · 48:09 · 46.2 MB</div></div>\n'
+		    '</div>'
+		)
 		subs = {
 		    "title": f"A Sample Article, Set in {theme}",
 		    "preferred_link": "https://example.com/sample-article",
@@ -99,6 +118,8 @@ render() {
 		    "datetime_medium": "16 Aug 2026 at 09:41",
 		    "text_size_class": "mediumText",
 		    "body": os.environ["BODY"],
+		    "primary_media": primary_media,
+		    "enclosures": enclosures,
 		}
 		for key, value in subs.items():
 		    template = template.replace(f"[[{key}]]", value)

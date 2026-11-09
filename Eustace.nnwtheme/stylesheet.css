@@ -431,8 +431,16 @@ figure {
 
 /* em, not rem: the caption sits inside .articleBody, whose size the
    reader controls through the text-size preference, and should scale
-   with the prose rather than stay pinned to the 16px root. */
-figcaption {
+   with the prose rather than stay pinned to the 16px root.
+
+   NetNewsWire 7.3+ also renders media from the feed's enclosures
+   (template7.3.html's primary_media tag above the body and its
+   enclosures tag after it). core.css lays those out; their captions
+   sit in .articleMedia wrappers that carry the same size class, and
+   are set like a figcaption here so they match the body's. */
+figcaption,
+.nnw-primary-image-caption,
+.nnw-enclosure-caption {
     font-size: 0.78em;
     font-style: italic;
     color: var(--secondary);
@@ -646,9 +654,16 @@ a.footnote:hover {
 
     blockquote,
     figure,
+    .nnw-primary-image,
+    .nnw-enclosure,
     pre,
     table {
         break-inside: avoid;
+    }
+
+    /* A player prints as a dead control bar. */
+    audio {
+        display: none;
     }
 
     h1, h2, h3, h4, h5, h6 {

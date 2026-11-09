@@ -36,10 +36,22 @@ jobs:
       # separate copies (a .nnwtheme folder has to be self-contained), so
       # assert they haven't drifted — the image and empty-link repair script
       # lives in there and a one-sided edit would be silent.
-      - name: shared template.html copies are identical
+      - name: shared template copies are identical
         run: |
           for t in Folio Atrium; do
             diff "Quiet.nnwtheme/template.html" "$t.nnwtheme/template.html"
+            diff "Quiet.nnwtheme/template7.3.html" "$t.nnwtheme/template7.3.html"
+          done
+
+      # NetNewsWire 7.3+ reads template7.3.html and older versions read
+      # template.html, so every theme needs both, and the 7.3 copy must
+      # actually use the new tags.
+      - name: every theme has a template7.3.html with the media tags
+        run: |
+          for t in ./*.nnwtheme; do
+            grep -qF '[[primary_media]]' "$t/template7.3.html"
+            grep -qF '[[enclosures]]' "$t/template7.3.html"
+            ! grep -qF -e '[[primary_media]]' -e '[[enclosures]]' "$t/template.html"
           done
 
       - name: shellcheck the scripts

@@ -30,6 +30,14 @@ push to `main` publishes immediately — there is no release step, and a broken
 zip in `dist/` is broken for everyone the moment it lands. Edit the
 `*.nnwtheme` source, run `./build.sh`, and commit source and zips together.
 
+## Every theme has two templates, and they move together
+
+NetNewsWire 7.3+ uses `template7.3.html` when present; older versions use
+`template.html`. The 7.3 file is the old one plus the `[[primary_media]]` and
+`[[enclosures]]` tags (and the broken-image handler knowing their markup). Keep
+the new tags out of `template.html`, and make any other template change in
+both files. CI checks the shared copies and the tag placement.
+
 ## Source of truth is the `*.nnwtheme` folder
 
 Each theme's real source is its folder at the repo root; `dist/` is output.

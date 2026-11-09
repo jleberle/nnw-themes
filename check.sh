@@ -33,6 +33,12 @@ check() {
 	rm -rf "$tmp"
 	tmp=$(mktemp -d)
 	cp -R "$dir" fixtures "$tmp/"
+	# nnw-theme (through 2.4.0) rejects template7.3.html as an unknown file,
+	# and it doesn't fill in the 7.3 media tags, so they'd render as literal
+	# text. Check template.html, which is what NetNewsWire 7.2 and earlier
+	# render. The 7.3 copy differs only by the media tags; preview.sh renders
+	# those. Remove this once nnw-theme supports template7.3.html.
+	rm -f "$tmp/$dir/template7.3.html"
 
 	echo "== $theme"
 	# The warnings about missing template-repository stubs (AGENTS.md, the
